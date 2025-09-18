@@ -4,13 +4,15 @@
   <meta charset="UTF-8">
   <title>PODS Overzicht</title>
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      display: flex;
-      height: 100vh;
-      background-color: #f9f9f9;
-    }
+	  body {
+	  margin: 0;
+	  font-family: Arial, sans-serif;
+	  display: flex;
+	  flex-direction: row;  /* expliciet naast elkaar */
+	  flex-wrap: nowrap;    /* voorkomen dat sidebar erboven springt */
+	  height: 100vh;
+	  background-color: #f9f9f9;
+	}
     .sidebar {
       width: 250px;
       background-color: #1e3d2f; /* racing green */
