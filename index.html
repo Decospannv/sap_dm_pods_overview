@@ -43,6 +43,14 @@
     .sidebar a:hover {
       background-color: #3f7d63;
     }
+	.sidebar a.active {
+	  background-color: #76961d;
+	  font-weight: bold;
+	}
+	.sidebar a.active_red {
+	  background-color: #c62828;
+	  font-weight: bold;
+	}
     .content {
       flex: 1;
       padding: 20px;
@@ -54,7 +62,7 @@
       font-weight: bold;
       text-align: center;
     }
-    header.dev {
+    header.qas {
       background-color: #2e7d32; /* groen */
     }
     header.live {
@@ -110,12 +118,14 @@
       <option value="fr">Français</option>
       <option value="pt">Português</option>
     </select>
-    <a href="#" onclick="loadEnv('dev')" data-translate="sidebar.dev">Decofib (P040) DEV</a>
-    <a href="#" onclick="loadEnv('live')" data-translate="sidebar.live">Decofib (P040) LIVE</a>
+    <a href="#" onclick="loadEnv('p010_qas')" data-translate="p010_qas">Ringlaan (P010) QAS</a>
+    <a href="#" onclick="loadEnv('p010_live')" data-translate="p010_live">Ringlaan (P010) LIVE</a>
+    <a href="#" onclick="loadEnv('p040_qas')" data-translate="p040_qas">Decofib (P040) QAS</a>
+    <a href="#" onclick="loadEnv('p040_live')" data-translate="p040_live">Decofib (P040) LIVE</a>
   </div>
 
   <div class="content" id="contentArea">
-    <header id="envHeader" class="dev" data-translate="banner.dev">DEV OMGEVING</header>
+    <header id="envHeader" class="" data-translate=""></header>
     <div id="groupsContainer"></div>
   </div>
 
@@ -123,10 +133,10 @@
     const translations = {
       nl: {
         "sidebar.title": "Navigatie",
-        "sidebar.dev": "Decofib (P040) DEV",
-        "sidebar.live": "Decofib (P040) LIVE",
-        "banner.dev": "DEV OMGEVING",
-        "banner.live": "⚠ LIVE OMGEVING",
+        "p010_qas": "Ringlaan (P010) QAS",
+        "p010_live": "⚠⚠ Ringlaan (P010) LIVE ⚠⚠",
+        "p040_qas": "Decofib (P040) QAS",
+        "p040_live": "⚠⚠ Decofib (P040) LIVE ⚠⚠",
         "group.grading": "Grading",
         "group.preparation": "Voorbereiding",
         "group.splice1": "Voeglijn 1",
@@ -157,6 +167,7 @@
         "tile.sortrepair2": "Sort & Repair tafel 2",
         "tile.sortrepair3": "Sort & Repair tafel 3",
         "tile.sortrepair4": "Sort & Repair tafel 4",
+        "tile.sortrepair7": "Sort & Repair tafel 7",
         "tile.sortonly4": "Sorting tafel 4",
         "tile.sortonly5": "Sorting tafel 5",
         "tile.sortonly6": "Sorting tafel 6",
@@ -171,10 +182,9 @@
       },
       en: {
         "sidebar.title": "Navigation",
-        "sidebar.dev": "Decofib (P040) DEV",
-        "sidebar.live": "Decofib (P040) LIVE",
-        "banner.dev": "DEV ENVIRONMENT",
-        "banner.live": "⚠ LIVE ENVIRONMENT",
+        "p010_qas": "Ringlaan (P010) QAS",
+        "p040_qas": "Decofib (P040) QAS",
+        "p040_live": "⚠⚠ Decofib (P040) LIVE ⚠⚠",
         "group.grading": "Grading",
         "group.preparation": "Preparation",
         "group.splice1": "Splicing line 1",
@@ -219,10 +229,9 @@
       },
       fr: {
         "sidebar.title": "Navigation",
-        "sidebar.dev": "Decofib (P040) DEV",
-        "sidebar.live": "Decofib (P040) LIVE",
-        "banner.dev": "ENVIRONNEMENT DEV",
-        "banner.live": "⚠ ENVIRONNEMENT LIVE",
+        "p010_qas": "Ringlaan (P010) QAS",
+        "p040_qas": "Decofib (P040) QAS",
+        "p040_live": "⚠⚠ Decofib (P040) LIVE ⚠⚠",
         "group.grading": "Classement",
         "group.preparation": "Préparation",
         "group.splice1": "Ligne de jointage 1",
@@ -267,10 +276,9 @@
       },
       pt: {
         "sidebar.title": "Navegação",
-        "sidebar.dev": "Decofib (P040) DEV",
-        "sidebar.live": "Decofib (P040) LIVE",
-        "banner.dev": "AMBIENTE DEV",
-        "banner.live": "⚠ AMBIENTE LIVE",
+        "p010_qas": "Ringlaan (P010) QAS",
+        "p040_qas": "Decofib (P040) QAS",
+        "p040_live": "⚠⚠Decofib (P040) LIVE⚠⚠",
         "group.grading": "Classificação",
         "group.preparation": "Preparação",
         "group.splice1": "Linha de emenda 1",
@@ -301,6 +309,7 @@
         "tile.sortrepair2": "Mesa de classificação & reparação 2",
         "tile.sortrepair3": "Mesa de classificação & reparação 3",
         "tile.sortrepair4": "Mesa de classificação & reparação 4",
+        "tile.sortrepair7": "Mesa de classificação & reparação 7",
         "tile.sortonly4": "Mesa de classificação 4",
         "tile.sortonly5": "Mesa de classificação 5",
         "tile.sortonly6": "Mesa de classificação 6",
@@ -315,77 +324,92 @@
       }
     };
 	
+	function buildPodUrl({ env, podId, workcenter, resource }) {
+		const base = env==="live"?"https://dcsn-sap-dm-prd.execution.eu20-prod.web.dmc.cloud.sap":"https://dcsn-sap-dm-dev-251030.execution.eu20-quality.web.dmc.cloud.sap";
+		 return `${base}/cp.portal/site#DMEWorkCenterPOD-Display` + `?POD_ID=${podId}` + `&sap-app-origin-hint=` + `&/?=` + `&WORKCENTER=${workcenter}` + `&RESOURCE=${resource}`;
+}
+	
 	// Links per tile en per omgeving
 	const links = {
-	  dev: {
-			"tile.grading1":"https://dcsn-sap-dm-dev-251030.execution.eu20-quality.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_GRADE&sap-app-origin-hint=&/?=&WORKCENTER=GRADELN1&RESOURCE=GRADE1",
-			"tile.grading2":"https://dcsn-sap-dm-dev-251030.execution.eu20-quality.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_GRADE&sap-app-origin-hint=&/?=&WORKCENTER=GRADELN1&RESOURCE=GRADE2",
-			"tile.prep1":"https://dcsn-sap-dm-dev-251030.execution.eu20-quality.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_PREP&sap-app-origin-hint=&/?=&WORKCENTER=PREPLN1&RESOURCE=PREP1",
-			"tile.prep2":"https://dcsn-sap-dm-dev-251030.execution.eu20-quality.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_PREP&sap-app-origin-hint=&/?=&WORKCENTER=PREPLN1&RESOURCE=PREP2",
-			"tile.splice1in":"https://dcsn-sap-dm-dev-251030.execution.eu20-quality.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_SPLICE_IN&sap-app-origin-hint=&/?=&WORKCENTER=SPLICEL1&RESOURCE=SPLICEL1",
-			"tile.splice1m2":"https://dcsn-sap-dm-dev-251030.execution.eu20-quality.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_SPLICE_OUT&sap-app-origin-hint=&/?=&WORKCENTER=SPLICEL1&RESOURCE=SPLICE2",
-			"tile.splice1m3":"https://dcsn-sap-dm-dev-251030.execution.eu20-quality.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_SPLICE_OUT&sap-app-origin-hint=&/?=&WORKCENTER=SPLICEL1&RESOURCE=SPLICE3",
-			"tile.splice1m4":"https://dcsn-sap-dm-dev-251030.execution.eu20-quality.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_SPLICE_OUT&sap-app-origin-hint=&/?=&WORKCENTER=SPLICEL1&RESOURCE=SPLICE4",
-			"tile.splice2in":"https://dcsn-sap-dm-dev-251030.execution.eu20-quality.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_SPLICE_IN&sap-app-origin-hint=&/?=&WORKCENTER=SPLICEL2&RESOURCE=SPLICEL2",
-			"tile.splice2m5":"https://dcsn-sap-dm-dev-251030.execution.eu20-quality.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_SPLICE_OUT&sap-app-origin-hint=&/?=&WORKCENTER=SPLICEL2&RESOURCE=SPLICE5",
-			"tile.splice2m6":"https://dcsn-sap-dm-dev-251030.execution.eu20-quality.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_SPLICE_OUT&sap-app-origin-hint=&/?=&WORKCENTER=SPLICEL2&RESOURCE=SPLICE6",
-			"tile.splice2m7":"https://dcsn-sap-dm-dev-251030.execution.eu20-quality.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_SPLICE_OUT&sap-app-origin-hint=&/?=&WORKCENTER=SPLICEL2&RESOURCE=SPLICE7",
-			"tile.splice2m8":"https://dcsn-sap-dm-dev-251030.execution.eu20-quality.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_SPLICE_OUT&sap-app-origin-hint=&/?=&WORKCENTER=SPLICEL2&RESOURCE=SPLICE8",
-			"tile.trim1":"https://dcsn-sap-dm-dev-251030.execution.eu20-quality.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_TRIM&sap-app-origin-hint=&/?=&WORKCENTER=TRIMLN1&RESOURCE=TRIMLN1",
-			"tile.trim2":"https://dcsn-sap-dm-dev-251030.execution.eu20-quality.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_TRIM&sap-app-origin-hint=&/?=&WORKCENTER=TRIMLN2&RESOURCE=TRIMLN2",
-			"tile.trim3":"https://dcsn-sap-dm-dev-251030.execution.eu20-quality.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_TRIM&sap-app-origin-hint=&/?=&WORKCENTER=TRIMLN3&RESOURCE=TRIMLN3",
-			"tile.cut1":"https://dcsn-sap-dm-dev-251030.execution.eu20-quality.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_TRIM&sap-app-origin-hint=&/?=&WORKCENTER=CUTLN1&RESOURCE=CUTLN1",
-			"tile.split1":"https://dcsn-sap-dm-dev-251030.execution.eu20-quality.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_SPLITBYLENGTH&sap-app-origin-hint=&/?=&WORKCENTER=SPLITLN1&RESOURCE=SPLITLN1",
-			"tile.sortrepair1":"https://dcsn-sap-dm-dev-251030.execution.eu20-quality.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_SORT_REPAIR&sap-app-origin-hint=&/?=&WORKCENTER=SORTLN1&RESOURCE=SORT1_1",
-			"tile.sortrepair2":"https://dcsn-sap-dm-dev-251030.execution.eu20-quality.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_SORT_REPAIR&sap-app-origin-hint=&/?=&WORKCENTER=SORTLN1&RESOURCE=SORT1_2",
-			"tile.sortrepair3":"https://dcsn-sap-dm-dev-251030.execution.eu20-quality.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_SORT_REPAIR&sap-app-origin-hint=&/?=&WORKCENTER=SORTLN1&RESOURCE=SORT1_3",
-			"tile.sortrepair4":"https://dcsn-sap-dm-dev-251030.execution.eu20-quality.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_SORT_REPAIR&sap-app-origin-hint=&/?=&WORKCENTER=SORTLN1&RESOURCE=SORT1_4",
-			"tile.sortonly4":"https://dcsn-sap-dm-dev-251030.execution.eu20-quality.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_SORT_ONLY&sap-app-origin-hint=&/?=&WORKCENTER=SORTLN2&RESOURCE=SORT2_1",
-			"tile.sortonly5":"https://dcsn-sap-dm-dev-251030.execution.eu20-quality.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_SORT_ONLY&sap-app-origin-hint=&/?=&WORKCENTER=SORTLN2&RESOURCE=SORT2_2",
-			"tile.sortonly6":"https://dcsn-sap-dm-dev-251030.execution.eu20-quality.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_SORT_ONLY&sap-app-origin-hint=&/?=&WORKCENTER=SORTLN2&RESOURCE=SORT2_3",
-			"tile.sortonly7":"https://dcsn-sap-dm-dev-251030.execution.eu20-quality.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_SORT_ONLY&sap-app-origin-hint=&/?=&WORKCENTER=SORTLN2&RESOURCE=SORT2_4",
-			"tile.sortonly20":"https://dcsn-sap-dm-dev-251030.execution.eu20-quality.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_SORT_ONLY&sap-app-origin-hint=&/?=&WORKCENTER=SORTLN2&RESOURCE=SORT2_20",
-			"tile.repair8":"https://dcsn-sap-dm-dev-251030.execution.eu20-quality.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_REPAIR_ONLY&sap-app-origin-hint=&/?=&WORKCENTER=SORTLN3&RESOURCE=SORT3_1",
-			"tile.repair9":"https://dcsn-sap-dm-dev-251030.execution.eu20-quality.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_REPAIR_ONLY&sap-app-origin-hint=&/?=&WORKCENTER=SORTLN3&RESOURCE=SORT3_2",
-			"tile.repair10":"https://dcsn-sap-dm-dev-251030.execution.eu20-quality.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_REPAIR_ONLY&sap-app-origin-hint=&/?=&WORKCENTER=SORTLN3&RESOURCE=SORT3_3",
-			"tile.repair11":"https://dcsn-sap-dm-dev-251030.execution.eu20-quality.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_REPAIR_ONLY&sap-app-origin-hint=&/?=&WORKCENTER=SORTLN3&RESOURCE=SORT3_4",
-			"tile.repair12":"https://dcsn-sap-dm-dev-251030.execution.eu20-quality.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_REPAIR_ONLY&sap-app-origin-hint=&/?=&WORKCENTER=SORTLN3&RESOURCE=SORT3_5",
-			"tile.repair13":"https://dcsn-sap-dm-dev-251030.execution.eu20-quality.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_REPAIR_ONLY&sap-app-origin-hint=&/?=&WORKCENTER=SORTLN3&RESOURCE=SORT3_6"
+	  p010_qas: {
+			"tile.grading1":   () => buildPodUrl({ env:"qas", podId:"ZD_GUIDED_GRADE", workcenter:"GRADELN1", resource:"GRADE1"}),
+			"tile.grading2":   () => buildPodUrl({ env:"qas", podId:"ZD_GUIDED_GRADE", workcenter:"GRADELN1", resource:"GRADE2"}),
+			"tile.sortrepair1":() => buildPodUrl({ env:"qas", podId:"SORT1", workcenter:"SORT3", resource:"SORT1"}),
+			"tile.sortrepair3":() => buildPodUrl({ env:"qas", podId:"SORT3", workcenter:"SORT3", resource:"SORT3"}),
+			"tile.sortrepair7":() => buildPodUrl({ env:"qas", podId:"SORT7", workcenter:"SORT7", resource:"SORT7"})
+				},
+	  p010_live: {
+
+				},
+	  p040_qas: {
+			"tile.grading1":   () => buildPodUrl({ env:"qas", podId:"ZD_GUIDED_GRADE", workcenter:"GRADELN1", resource:"GRADE1"}),
+			"tile.grading2":   () => buildPodUrl({ env:"qas", podId:"ZD_GUIDED_GRADE", workcenter:"GRADELN1", resource:"GRADE2"}),
+			"tile.prep1":      () => buildPodUrl({ env:"qas", podId:"ZD_GUIDED_PREP",  workcenter:"PREPLN1", resource:"PREP1"}),
+			"tile.prep2":      () => buildPodUrl({ env:"qas", podId:"ZD_GUIDED_PREP",  workcenter:"PREPLN1", resource:"PREP2"}),
+			"tile.splice1in":  () => buildPodUrl({ env:"qas", podId:"ZD_GUIDED_SPLICE_IN",  workcenter:"SPLICEL1", resource:"SPLICEL1"}),
+			"tile.splice1m2":  () => buildPodUrl({ env:"qas", podId:"ZD_GUIDED_SPLICE_OUT", workcenter:"SPLICEL1", resource:"SPLICE2"}),
+			"tile.splice1m3":  () => buildPodUrl({ env:"qas", podId:"ZD_GUIDED_SPLICE_OUT", workcenter:"SPLICEL1", resource:"SPLICE3"}),
+			"tile.splice1m4":  () => buildPodUrl({ env:"qas", podId:"ZD_GUIDED_SPLICE_OUT", workcenter:"SPLICEL1", resource:"SPLICE4"}),
+			"tile.splice2in":  () => buildPodUrl({ env:"qas", podId:"ZD_GUIDED_SPLICE_IN",  workcenter:"SPLICEL2", resource:"SPLICEL2"}),
+			"tile.splice2m5":  () => buildPodUrl({ env:"qas", podId:"ZD_GUIDED_SPLICE_OUT", workcenter:"SPLICEL2", resource:"SPLICE5"}),
+			"tile.splice2m6":  () => buildPodUrl({ env:"qas", podId:"ZD_GUIDED_SPLICE_OUT", workcenter:"SPLICEL2", resource:"SPLICE6"}),
+			"tile.splice2m7":  () => buildPodUrl({ env:"qas", podId:"ZD_GUIDED_SPLICE_OUT", workcenter:"SPLICEL2", resource:"SPLICE7"}),
+			"tile.splice2m8":  () => buildPodUrl({ env:"qas", podId:"ZD_GUIDED_SPLICE_OUT", workcenter:"SPLICEL2", resource:"SPLICE8"}),
+			"tile.trim1":      () => buildPodUrl({ env:"qas", podId:"ZD_GUIDED_TRIM", workcenter:"TRIMLN1", resource:"TRIMLN1"}),
+			"tile.trim2":      () => buildPodUrl({ env:"qas", podId:"ZD_GUIDED_TRIM", workcenter:"TRIMLN2", resource:"TRIMLN2"}),
+			"tile.trim3":      () => buildPodUrl({ env:"qas", podId:"ZD_GUIDED_TRIM", workcenter:"TRIMLN3", resource:"TRIMLN3"}),
+			"tile.cut1":       () => buildPodUrl({ env:"qas", podId:"ZD_GUIDED_TRIM", workcenter:"CUTLN1", resource:"CUTLN1"}),
+			"tile.split1":     () => buildPodUrl({ env:"qas", podId:"ZD_GUIDED_SPLITBYLENGTH", workcenter:"SPLITLN1", resource:"SPLITLN1"}),
+			"tile.sortrepair1":() => buildPodUrl({ env:"qas", podId:"ZD_GUIDED_SORT_REPAIR", workcenter:"SORTLN1", resource:"SORT1_1"}),
+			"tile.sortrepair2":() => buildPodUrl({ env:"qas", podId:"ZD_GUIDED_SORT_REPAIR", workcenter:"SORTLN1", resource:"SORT1_2"}),
+			"tile.sortrepair3":() => buildPodUrl({ env:"qas", podId:"ZD_GUIDED_SORT_REPAIR", workcenter:"SORTLN1", resource:"SORT1_3"}),
+			"tile.sortrepair4":() => buildPodUrl({ env:"qas", podId:"ZD_GUIDED_SORT_REPAIR", workcenter:"SORTLN1", resource:"SORT1_4"}),
+			"tile.sortonly4":  () => buildPodUrl({ env:"qas", podId:"ZD_GUIDED_SORT_ONLY", workcenter:"SORTLN2", resource:"SORT2_1"}),
+			"tile.sortonly5":  () => buildPodUrl({ env:"qas", podId:"ZD_GUIDED_SORT_ONLY", workcenter:"SORTLN2", resource:"SORT2_2"}),
+			"tile.sortonly6":  () => buildPodUrl({ env:"qas", podId:"ZD_GUIDED_SORT_ONLY", workcenter:"SORTLN2", resource:"SORT2_3"}),
+			"tile.sortonly7":  () => buildPodUrl({ env:"qas", podId:"ZD_GUIDED_SORT_ONLY", workcenter:"SORTLN2", resource:"SORT2_4"}),
+			"tile.sortonly20": () => buildPodUrl({ env:"qas", podId:"ZD_GUIDED_SORT_ONLY", workcenter:"SORTLN2", resource:"SORT2_20"}),
+			"tile.repair8":    () => buildPodUrl({ env:"qas", podId:"ZD_GUIDED_REPAIR_ONLY", workcenter:"SORTLN3", resource:"SORT3_1"}),
+			"tile.repair9":    () => buildPodUrl({ env:"qas", podId:"ZD_GUIDED_REPAIR_ONLY", workcenter:"SORTLN3", resource:"SORT3_2"}),
+			"tile.repair10":   () => buildPodUrl({ env:"qas", podId:"ZD_GUIDED_REPAIR_ONLY", workcenter:"SORTLN3", resource:"SORT3_3"}),
+			"tile.repair11":   () => buildPodUrl({ env:"qas", podId:"ZD_GUIDED_REPAIR_ONLY", workcenter:"SORTLN3", resource:"SORT3_4"}),
+			"tile.repair12":   () => buildPodUrl({ env:"qas", podId:"ZD_GUIDED_REPAIR_ONLY", workcenter:"SORTLN3", resource:"SORT3_5"}),
+			"tile.repair13":   () => buildPodUrl({ env:"qas", podId:"ZD_GUIDED_REPAIR_ONLY", workcenter:"SORTLN3", resource:"SORT3_6"})
 	  },
-	  live: {
-			"tile.grading1":"https://dcsn-sap-dm-prd.execution.eu20-prod.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_GRADE&sap-app-origin-hint=&/?=&WORKCENTER=GRADELN1&RESOURCE=GRADE1",
-			"tile.grading2":"https://dcsn-sap-dm-prd.execution.eu20-prod.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_GRADE&sap-app-origin-hint=&/?=&WORKCENTER=GRADELN1&RESOURCE=GRADE2",
-			"tile.prep1":"https://dcsn-sap-dm-prd.execution.eu20-prod.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_PREP&sap-app-origin-hint=&/?=&WORKCENTER=PREPLN1&RESOURCE=PREP1",
-			"tile.prep2":"https://dcsn-sap-dm-prd.execution.eu20-prod.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_PREP&sap-app-origin-hint=&/?=&WORKCENTER=PREPLN1&RESOURCE=PREP2",
-			"tile.splice1in":"https://dcsn-sap-dm-prd.execution.eu20-prod.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_SPLICE_IN&sap-app-origin-hint=&/?=&WORKCENTER=SPLICEL1&RESOURCE=SPLICEL1",
-			"tile.splice1m2":"https://dcsn-sap-dm-prd.execution.eu20-prod.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_SPLICE_OUT&sap-app-origin-hint=&/?=&WORKCENTER=SPLICEL1&RESOURCE=SPLICE2",
-			"tile.splice1m3":"https://dcsn-sap-dm-prd.execution.eu20-prod.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_SPLICE_OUT&sap-app-origin-hint=&/?=&WORKCENTER=SPLICEL1&RESOURCE=SPLICE3",
-			"tile.splice1m4":"https://dcsn-sap-dm-prd.execution.eu20-prod.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_SPLICE_OUT&sap-app-origin-hint=&/?=&WORKCENTER=SPLICEL1&RESOURCE=SPLICE4",
-			"tile.splice2in":"https://dcsn-sap-dm-prd.execution.eu20-prod.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_SPLICE_IN&sap-app-origin-hint=&/?=&WORKCENTER=SPLICEL2&RESOURCE=SPLICEL2",
-			"tile.splice2m5":"https://dcsn-sap-dm-prd.execution.eu20-prod.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_SPLICE_OUT&sap-app-origin-hint=&/?=&WORKCENTER=SPLICEL2&RESOURCE=SPLICE5",
-			"tile.splice2m6":"https://dcsn-sap-dm-prd.execution.eu20-prod.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_SPLICE_OUT&sap-app-origin-hint=&/?=&WORKCENTER=SPLICEL2&RESOURCE=SPLICE6",
-			"tile.splice2m7":"https://dcsn-sap-dm-prd.execution.eu20-prod.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_SPLICE_OUT&sap-app-origin-hint=&/?=&WORKCENTER=SPLICEL2&RESOURCE=SPLICE7",
-			"tile.splice2m8":"https://dcsn-sap-dm-prd.execution.eu20-prod.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_SPLICE_OUT&sap-app-origin-hint=&/?=&WORKCENTER=SPLICEL2&RESOURCE=SPLICE8",
-			"tile.trim1":"https://dcsn-sap-dm-prd.execution.eu20-prod.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_TRIM&sap-app-origin-hint=&/?=&WORKCENTER=TRIMLN1&RESOURCE=TRIMLN1",
-			"tile.trim2":"https://dcsn-sap-dm-prd.execution.eu20-prod.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_TRIM&sap-app-origin-hint=&/?=&WORKCENTER=TRIMLN2&RESOURCE=TRIMLN2",
-			"tile.trim3":"https://dcsn-sap-dm-prd.execution.eu20-prod.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_TRIM&sap-app-origin-hint=&/?=&WORKCENTER=TRIMLN3&RESOURCE=TRIMLN3",
-			"tile.cut1":"https://dcsn-sap-dm-prd.execution.eu20-prod.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_TRIM&sap-app-origin-hint=&/?=&WORKCENTER=CUTLN1&RESOURCE=CUTLN1",
-			"tile.split1":"https://dcsn-sap-dm-prd.execution.eu20-prod.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_SPLITBYLENGTH&sap-app-origin-hint=&/?=&WORKCENTER=SPLITLN1&RESOURCE=SPLITLN1",
-			"tile.sortrepair1":"https://dcsn-sap-dm-prd.execution.eu20-prod.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_SORT_REPAIR&sap-app-origin-hint=&/?=&WORKCENTER=SORTLN1&RESOURCE=SORT1_1",
-			"tile.sortrepair2":"https://dcsn-sap-dm-prd.execution.eu20-prod.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_SORT_REPAIR&sap-app-origin-hint=&/?=&WORKCENTER=SORTLN1&RESOURCE=SORT1_2",
-			"tile.sortrepair3":"https://dcsn-sap-dm-prd.execution.eu20-prod.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_SORT_REPAIR&sap-app-origin-hint=&/?=&WORKCENTER=SORTLN1&RESOURCE=SORT1_3",
-			"tile.sortrepair4":"https://dcsn-sap-dm-prd.execution.eu20-prod.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_SORT_REPAIR&sap-app-origin-hint=&/?=&WORKCENTER=SORTLN1&RESOURCE=SORT1_4",
-			"tile.sortonly4":"https://dcsn-sap-dm-prd.execution.eu20-prod.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_SORT_ONLY&sap-app-origin-hint=&/?=&WORKCENTER=SORTLN2&RESOURCE=SORT2_1",
-			"tile.sortonly5":"https://dcsn-sap-dm-prd.execution.eu20-prod.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_SORT_ONLY&sap-app-origin-hint=&/?=&WORKCENTER=SORTLN2&RESOURCE=SORT2_2",
-			"tile.sortonly6":"https://dcsn-sap-dm-prd.execution.eu20-prod.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_SORT_ONLY&sap-app-origin-hint=&/?=&WORKCENTER=SORTLN2&RESOURCE=SORT2_3",
-			"tile.sortonly7":"https://dcsn-sap-dm-prd.execution.eu20-prod.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_SORT_ONLY&sap-app-origin-hint=&/?=&WORKCENTER=SORTLN2&RESOURCE=SORT2_4",
-			"tile.sortonly20":"https://dcsn-sap-dm-prd.execution.eu20-prod.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_SORT_ONLY&sap-app-origin-hint=&/?=&WORKCENTER=SORTLN2&RESOURCE=SORT2_20",
-			"tile.repair8":"https://dcsn-sap-dm-prd.execution.eu20-prod.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_REPAIR_ONLY&sap-app-origin-hint=&/?=&WORKCENTER=SORTLN3&RESOURCE=SORT3_1",
-			"tile.repair9":"https://dcsn-sap-dm-prd.execution.eu20-prod.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_REPAIR_ONLY&sap-app-origin-hint=&/?=&WORKCENTER=SORTLN3&RESOURCE=SORT3_2",
-			"tile.repair10":"https://dcsn-sap-dm-prd.execution.eu20-prod.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_REPAIR_ONLY&sap-app-origin-hint=&/?=&WORKCENTER=SORTLN3&RESOURCE=SORT3_3",
-			"tile.repair11":"https://dcsn-sap-dm-prd.execution.eu20-prod.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_REPAIR_ONLY&sap-app-origin-hint=&/?=&WORKCENTER=SORTLN3&RESOURCE=SORT3_4",
-			"tile.repair12":"https://dcsn-sap-dm-prd.execution.eu20-prod.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_REPAIR_ONLY&sap-app-origin-hint=&/?=&WORKCENTER=SORTLN3&RESOURCE=SORT3_5",
-			"tile.repair13":"https://dcsn-sap-dm-prd.execution.eu20-prod.web.dmc.cloud.sap/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=ZD_GUIDED_REPAIR_ONLY&sap-app-origin-hint=&/?=&WORKCENTER=SORTLN3&RESOURCE=SORT3_6"
+	  p040_live: {
+			"tile.grading1":   () => buildPodUrl({ env:"live", podId:"ZD_GUIDED_GRADE", workcenter:"GRADELN1", resource:"GRADE1"}),
+			"tile.grading2":   () => buildPodUrl({ env:"live", podId:"ZD_GUIDED_GRADE", workcenter:"GRADELN1", resource:"GRADE2"}),
+			"tile.prep1":      () => buildPodUrl({ env:"live", podId:"ZD_GUIDED_PREP",  workcenter:"PREPLN1", resource:"PREP1"}),
+			"tile.prep2":      () => buildPodUrl({ env:"live", podId:"ZD_GUIDED_PREP",  workcenter:"PREPLN1", resource:"PREP2"}),
+			"tile.splice1in":  () => buildPodUrl({ env:"live", podId:"ZD_GUIDED_SPLICE_IN",  workcenter:"SPLICEL1", resource:"SPLICEL1"}),
+			"tile.splice1m2":  () => buildPodUrl({ env:"live", podId:"ZD_GUIDED_SPLICE_OUT", workcenter:"SPLICEL1", resource:"SPLICE2"}),
+			"tile.splice1m3":  () => buildPodUrl({ env:"live", podId:"ZD_GUIDED_SPLICE_OUT", workcenter:"SPLICEL1", resource:"SPLICE3"}),
+			"tile.splice1m4":  () => buildPodUrl({ env:"live", podId:"ZD_GUIDED_SPLICE_OUT", workcenter:"SPLICEL1", resource:"SPLICE4"}),
+			"tile.splice2in":  () => buildPodUrl({ env:"live", podId:"ZD_GUIDED_SPLICE_IN",  workcenter:"SPLICEL2", resource:"SPLICEL2"}),
+			"tile.splice2m5":  () => buildPodUrl({ env:"live", podId:"ZD_GUIDED_SPLICE_OUT", workcenter:"SPLICEL2", resource:"SPLICE5"}),
+			"tile.splice2m6":  () => buildPodUrl({ env:"live", podId:"ZD_GUIDED_SPLICE_OUT", workcenter:"SPLICEL2", resource:"SPLICE6"}),
+			"tile.splice2m7":  () => buildPodUrl({ env:"live", podId:"ZD_GUIDED_SPLICE_OUT", workcenter:"SPLICEL2", resource:"SPLICE7"}),
+			"tile.splice2m8":  () => buildPodUrl({ env:"live", podId:"ZD_GUIDED_SPLICE_OUT", workcenter:"SPLICEL2", resource:"SPLICE8"}),
+			"tile.trim1":      () => buildPodUrl({ env:"live", podId:"ZD_GUIDED_TRIM", workcenter:"TRIMLN1", resource:"TRIMLN1"}),
+			"tile.trim2":      () => buildPodUrl({ env:"live", podId:"ZD_GUIDED_TRIM", workcenter:"TRIMLN2", resource:"TRIMLN2"}),
+			"tile.trim3":      () => buildPodUrl({ env:"live", podId:"ZD_GUIDED_TRIM", workcenter:"TRIMLN3", resource:"TRIMLN3"}),
+			"tile.cut1":       () => buildPodUrl({ env:"live", podId:"ZD_GUIDED_TRIM", workcenter:"CUTLN1", resource:"CUTLN1"}),
+			"tile.split1":     () => buildPodUrl({ env:"live", podId:"ZD_GUIDED_SPLITBYLENGTH", workcenter:"SPLITLN1", resource:"SPLITLN1"}),
+			"tile.sortrepair1":() => buildPodUrl({ env:"live", podId:"ZD_GUIDED_SORT_REPAIR", workcenter:"SORTLN1", resource:"SORT1_1"}),
+			"tile.sortrepair2":() => buildPodUrl({ env:"live", podId:"ZD_GUIDED_SORT_REPAIR", workcenter:"SORTLN1", resource:"SORT1_2"}),
+			"tile.sortrepair3":() => buildPodUrl({ env:"live", podId:"ZD_GUIDED_SORT_REPAIR", workcenter:"SORTLN1", resource:"SORT1_3"}),
+			"tile.sortrepair4":() => buildPodUrl({ env:"live", podId:"ZD_GUIDED_SORT_REPAIR", workcenter:"SORTLN1", resource:"SORT1_4"}),
+			"tile.sortonly4":  () => buildPodUrl({ env:"live", podId:"ZD_GUIDED_SORT_ONLY", workcenter:"SORTLN2", resource:"SORT2_1"}),
+			"tile.sortonly5":  () => buildPodUrl({ env:"live", podId:"ZD_GUIDED_SORT_ONLY", workcenter:"SORTLN2", resource:"SORT2_2"}),
+			"tile.sortonly6":  () => buildPodUrl({ env:"live", podId:"ZD_GUIDED_SORT_ONLY", workcenter:"SORTLN2", resource:"SORT2_3"}),
+			"tile.sortonly7":  () => buildPodUrl({ env:"live", podId:"ZD_GUIDED_SORT_ONLY", workcenter:"SORTLN2", resource:"SORT2_4"}),
+			"tile.sortonly20": () => buildPodUrl({ env:"live", podId:"ZD_GUIDED_SORT_ONLY", workcenter:"SORTLN2", resource:"SORT2_20"}),
+			"tile.repair8":    () => buildPodUrl({ env:"live", podId:"ZD_GUIDED_REPAIR_ONLY", workcenter:"SORTLN3", resource:"SORT3_1"}),
+			"tile.repair9":    () => buildPodUrl({ env:"live", podId:"ZD_GUIDED_REPAIR_ONLY", workcenter:"SORTLN3", resource:"SORT3_2"}),
+			"tile.repair10":   () => buildPodUrl({ env:"live", podId:"ZD_GUIDED_REPAIR_ONLY", workcenter:"SORTLN3", resource:"SORT3_3"}),
+			"tile.repair11":   () => buildPodUrl({ env:"live", podId:"ZD_GUIDED_REPAIR_ONLY", workcenter:"SORTLN3", resource:"SORT3_4"}),
+			"tile.repair12":   () => buildPodUrl({ env:"live", podId:"ZD_GUIDED_REPAIR_ONLY", workcenter:"SORTLN3", resource:"SORT3_5"}),
+			"tile.repair13":   () => buildPodUrl({ env:"live", podId:"ZD_GUIDED_REPAIR_ONLY", workcenter:"SORTLN3", resource:"SORT3_6"})
 	  }
 	};
 
@@ -395,19 +419,25 @@
 	  { key:"group.splice1", tiles:["tile.splice1in","tile.splice1m2","tile.splice1m3","tile.splice1m4"] },
 	  { key:"group.splice2", tiles:["tile.splice2in","tile.splice2m5","tile.splice2m6","tile.splice2m7","tile.splice2m8"] },
 	  { key:"group.trimming", tiles:["tile.trim1","tile.trim2","tile.trim3","tile.cut1"] },
-	  { key:"group.sortrepair", tiles:["tile.sortrepair1","tile.sortrepair2","tile.sortrepair3","tile.sortrepair4"] },
+	  { key:"group.sortrepair", tiles:["tile.sortrepair1","tile.sortrepair2","tile.sortrepair3","tile.sortrepair4","tile.sortrepair7"] },
 	  { key:"group.sortonly", tiles:["tile.sortonly4","tile.sortonly5","tile.sortonly6","tile.sortonly7","tile.sortonly20"] },
-	  { key:"group.repaironly", tiles:["tile.repair8","tile.repair9","tile.repair10","tile.repair11","tile.repair12","tile.repair13"] }
+	  { key:"group.repaironly", tiles:["tile.repair8","tile.repair9","tile.repair10","tile.repair11","tile.repair12","tile.repair13"] },
+	  { key:"group.press_saw", tiles:[] },
+	  { key:"group.varnish", tiles:[] },
+	  { key:"group.finishing", tiles:[] },
+	  { key:"group.packaging", tiles:[] }
+
 	];
 
     let currentLang = localStorage.getItem("lang") || "en";
-    let currentEnv = localStorage.getItem("env") || "dev";
+    let currentEnv = localStorage.getItem("env") || "p040_qas";
     let savedGroup = localStorage.getItem("group") || null;
 
     function renderGroups() {
       const container = document.getElementById("groupsContainer");
       container.innerHTML = "";
-      groups.forEach(group => {
+	  groups.filter(group => group.tiles.some(tile => links[currentEnv]?.[tile]))
+	  .forEach(group => {
         const item = document.createElement("div");
         item.classList.add("accordion-item");
 
@@ -425,7 +455,7 @@
           btn.classList.add("tile");
           btn.setAttribute("data-translate", tileKey);
           btn.textContent = translations[currentLang][tileKey];
-          btn.onclick = () => window.open(links[currentEnv][tileKey], "_blank");
+		  btn.onclick = () => window.open(links[currentEnv][tileKey](), "_blank");
           content.appendChild(btn);
         });
 
@@ -471,10 +501,23 @@
     function loadEnv(env) {
       currentEnv = env;
       localStorage.setItem("env", env);
+	
+	  document.querySelectorAll(".sidebar a").forEach(a =>a.classList.remove("active"));
+	  document.querySelectorAll(".sidebar a").forEach(a =>a.classList.remove("active_red"));
+
       const header = document.getElementById("envHeader");
-      header.className = env;
-      header.setAttribute("data-translate", env==="dev"?"banner.dev":"banner.live");
-      renderGroups();
+	  if (env.endsWith("_live")) {
+		header.className = "live";
+        const activeLink = document.querySelector(`.sidebar a[onclick="loadEnv('${env}')"]`);
+        if (activeLink) activeLink.classList.add("active_red");
+
+	  } else {
+		header.className = "qas";
+        const activeLink = document.querySelector(`.sidebar a[onclick="loadEnv('${env}')"]`);
+        if (activeLink) activeLink.classList.add("active");
+	  }
+	  header.setAttribute("data-translate", `${env}`);
+	  renderGroups();
       translatePage();
     }
 
