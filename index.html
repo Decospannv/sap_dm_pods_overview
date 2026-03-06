@@ -151,7 +151,7 @@
         "tile.prep2": "Voorbereidingstafel 2",
         "tile.splice1in": "Voeglijn 1 input",
         "tile.splice1m2": "Voegmachine 2",
-		"tile.splice1m3": "Voegmachine 3",
+		    "tile.splice1m3": "Voegmachine 3",
         "tile.splice1m4": "Voegmachine 4",
         "tile.splice2in": "Voeglijn 2 input",
         "tile.splice2m5": "Voegmachine 5",
@@ -178,7 +178,12 @@
         "tile.repair10": "Repair tafel 10",
         "tile.repair11": "Repair tafel 11",
         "tile.repair12": "Repair tafel 12",
-        "tile.repair13": "Repair tafel 13"
+        "tile.repair13": "Repair tafel 13",
+        "tile.sortln1": "Sorteerlijn 1",
+        "tile.sortln2": "Sorteerlijn 2",
+        "tile.sortln3": "Sorteerlijn 3",
+        "tile.sortln4": "Sorteerlijn 4",
+        "tile.sortln7": "Sorteerlijn 7"
       },
       en: {
         "sidebar.title": "Navigation",
@@ -225,7 +230,12 @@
         "tile.repair10": "Repair table 10",
         "tile.repair11": "Repair table 11",
         "tile.repair12": "Repair table 12",
-        "tile.repair13": "Repair table 13"
+        "tile.repair13": "Repair table 13",
+        "tile.sortln1": "Sortingline 1",
+        "tile.sortln2": "Sortingline 2",
+        "tile.sortln3": "Sortingline 3",
+        "tile.sortln4": "Sortingline 4",
+        "tile.sortln7": "Sortingline 7"
       },
       fr: {
         "sidebar.title": "Navigation",
@@ -239,7 +249,7 @@
         "group.trimming": "Découpe",
         "group.sortrepair": "Triage et réparation",
         "group.sortonly": "Triage",
-		"group.repaironly": "Réparation",
+		    "group.repaironly": "Réparation",
         "tile.grading1": "Table de classement 1",
         "tile.grading2": "Table de classement 2",
         "tile.prep1": "Table de préparation 1",
@@ -266,13 +276,18 @@
         "tile.sortonly5": "Table de tri 5",
         "tile.sortonly6": "Table de tri 6",
         "tile.sortonly7": "Table de tri 7",
-		"tile.sortonly20": "Temp table de tri 20",
+		    "tile.sortonly20": "Temp table de tri 20",
         "tile.repair8": "Table de réparation 8",
         "tile.repair9": "Table de réparation 9",
         "tile.repair10": "Table de réparation 10",
         "tile.repair11": "Table de réparation 11",
         "tile.repair12": "Table de réparation 12",
-        "tile.repair13": "Table de réparation 13"
+        "tile.repair13": "Table de réparation 13",
+        "tile.sortln1": "Ligne de triage 1",
+        "tile.sortln2": "Ligne de triage 2",
+        "tile.sortln3": "Ligne de triage 3",
+        "tile.sortln4": "Ligne de triage 4",
+        "tile.sortln7": "Ligne de triage 7"
       },
       pt: {
         "sidebar.title": "Navegação",
@@ -320,7 +335,12 @@
         "tile.repair10": "Mesa de reparação 10",
         "tile.repair11": "Mesa de reparação 11",
         "tile.repair12": "Mesa de reparação 12",
-        "tile.repair13": "Mesa de reparação 13"
+        "tile.repair13": "Mesa de reparação 13",
+        "tile.sortln1": "Linha de classificação 1",
+        "tile.sortln2": "Linha de classificação 2",
+        "tile.sortln3": "Linha de classificação 3",
+        "tile.sortln4": "Linha de classificação 4",
+        "tile.sortln7": "Linha de classificação 7"
       }
     };
 	
@@ -334,9 +354,9 @@
 	  p010_qas: {
 			"tile.grading1":   () => buildPodUrl({ env:"qas", podId:"ZD_GUIDED_GRADE", workcenter:"GRADELN1", resource:"GRADE1"}),
 			"tile.grading2":   () => buildPodUrl({ env:"qas", podId:"ZD_GUIDED_GRADE", workcenter:"GRADELN1", resource:"GRADE2"}),
-			"tile.sortrepair1":() => buildPodUrl({ env:"qas", podId:"SORT1", workcenter:"SORT3", resource:"SORT1"}),
-			"tile.sortrepair3":() => buildPodUrl({ env:"qas", podId:"SORT3", workcenter:"SORT3", resource:"SORT3"}),
-			"tile.sortrepair7":() => buildPodUrl({ env:"qas", podId:"SORT7", workcenter:"SORT7", resource:"SORT7"})
+			"tile.sortrepair1":() => buildPodUrl({ env:"qas", podId:"SORT1", workcenter:"SORTLN1", resource:"SORT1"}),
+			"tile.sortrepair3":() => buildPodUrl({ env:"qas", podId:"SORT3", workcenter:"SORTLN3", resource:"SORT3"}),
+			"tile.sortrepair7":() => buildPodUrl({ env:"qas", podId:"SORT7", workcenter:"SORTLN7", resource:"SORT7"})
 				},
 	  p010_live: {
 
