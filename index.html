@@ -145,6 +145,9 @@
         "group.sortrepair": "Sorteren en herstellen",
         "group.sortonly": "Sorteren",
         "group.repaironly": "Herstellen",
+        "group.press_saw": "Pers en zaag",
+	      "group.varnish": "Versnissen",
+	      "group.finishing": "Afwerking",
         "tile.grading1": "Gradingtafel 1",
         "tile.grading2": "Gradingtafel 2",
         "tile.prep1": "Voorbereidingstafel 1",
@@ -183,7 +186,8 @@
         "tile.sortln2": "Sorteerlijn 2",
         "tile.sortln3": "Sorteerlijn 3",
         "tile.sortln4": "Sorteerlijn 4",
-        "tile.sortln7": "Sorteerlijn 7"
+        "tile.sortln7": "Sorteerlijn 7",
+        "tile.multi1": "Multilijn"
       },
       en: {
         "sidebar.title": "Navigation",
@@ -198,6 +202,9 @@
         "group.sortrepair": "Sort and repair",
         "group.sortonly": "Sort only",
         "group.repaironly": "Repair only",
+        "group.press_saw": "Press and saw",
+	      "group.varnish": "Varnish",
+	      "group.finishing": "Finishing",
         "tile.grading1": "Grading table 1",
         "tile.grading2": "Grading table 2",
         "tile.prep1": "Preparation table 1",
@@ -235,7 +242,8 @@
         "tile.sortln2": "Sortingline 2",
         "tile.sortln3": "Sortingline 3",
         "tile.sortln4": "Sortingline 4",
-        "tile.sortln7": "Sortingline 7"
+        "tile.sortln7": "Sortingline 7",
+        "tile.multi1": "Multiline"
       },
       fr: {
         "sidebar.title": "Navigation",
@@ -250,6 +258,9 @@
         "group.sortrepair": "Triage et réparation",
         "group.sortonly": "Triage",
 		    "group.repaironly": "Réparation",
+        "group.press_saw": "Presse et scie",
+	      "group.varnish": "Vernis",
+	      "group.finishing": "Finition",
         "tile.grading1": "Table de classement 1",
         "tile.grading2": "Table de classement 2",
         "tile.prep1": "Table de préparation 1",
@@ -287,7 +298,8 @@
         "tile.sortln2": "Ligne de triage 2",
         "tile.sortln3": "Ligne de triage 3",
         "tile.sortln4": "Ligne de triage 4",
-        "tile.sortln7": "Ligne de triage 7"
+        "tile.sortln7": "Ligne de triage 7",
+        "tile.multi1": "Ligne de finition"
       },
       pt: {
         "sidebar.title": "Navegação",
@@ -302,6 +314,9 @@
         "group.sortrepair": "Classificar e reparar",
         "group.sortonly": "Classificar",
         "group.repaironly": "Reparar",
+        "group.press_saw": "Prensa e serra",
+	      "group.varnish": "Acabamento",
+	      "group.finishing": "Afwerking",
         "tile.grading1": "Mesa de classificação 1",
         "tile.grading2": "Mesa de classificação 2",
         "tile.prep1": "Mesa de preparação 1",
@@ -340,7 +355,8 @@
         "tile.sortln2": "Linha de classificação 2",
         "tile.sortln3": "Linha de classificação 3",
         "tile.sortln4": "Linha de classificação 4",
-        "tile.sortln7": "Linha de classificação 7"
+        "tile.sortln7": "Linha de classificação 7",
+        "tile.multi1": "Linha de acabamento"
       }
     };
 	
@@ -352,11 +368,12 @@
 	// Links per tile en per omgeving
 	const links = {
 	  p010_qas: {
-			"tile.grading1":   () => buildPodUrl({ env:"qas", podId:"ZD_GUIDED_GRADE", workcenter:"GRADELN1", resource:"GRADE1"}),
-			"tile.grading2":   () => buildPodUrl({ env:"qas", podId:"ZD_GUIDED_GRADE", workcenter:"GRADELN1", resource:"GRADE2"}),
-			"tile.sortrepair1":() => buildPodUrl({ env:"qas", podId:"SORT1", workcenter:"SORTLN1", resource:"SORT1"}),
-			"tile.sortrepair3":() => buildPodUrl({ env:"qas", podId:"SORT3", workcenter:"SORTLN3", resource:"SORT3"}),
-			"tile.sortrepair7":() => buildPodUrl({ env:"qas", podId:"SORT7", workcenter:"SORTLN7", resource:"SORT7"})
+			"tile.grading1":() => buildPodUrl({ env:"qas", podId:"ZD_GUIDED_GRADE", workcenter:"GRADELN1", resource:"GRADE1"}),
+			"tile.grading2":() => buildPodUrl({ env:"qas", podId:"ZD_GUIDED_GRADE", workcenter:"GRADELN1", resource:"GRADE2"}),
+			"tile.sortln1":() => buildPodUrl({ env:"qas", podId:"SORT1", workcenter:"SORTLN1", resource:"SORT1"}),
+			"tile.sortln3":() => buildPodUrl({ env:"qas", podId:"SORT3", workcenter:"SORTLN3", resource:"SORT3"}),
+			"tile.sortln7":() => buildPodUrl({ env:"qas", podId:"SORT7", workcenter:"SORTLN7", resource:"SORT7"}),
+			"tile.multi1":() => buildPodUrl({ env:"qas", podId:"MULTI1", workcenter:"MULTI1", resource:"MULTI1"})
 				},
 	  p010_live: {
 
@@ -439,13 +456,12 @@
 	  { key:"group.splice1", tiles:["tile.splice1in","tile.splice1m2","tile.splice1m3","tile.splice1m4"] },
 	  { key:"group.splice2", tiles:["tile.splice2in","tile.splice2m5","tile.splice2m6","tile.splice2m7","tile.splice2m8"] },
 	  { key:"group.trimming", tiles:["tile.trim1","tile.trim2","tile.trim3","tile.cut1"] },
-	  { key:"group.sortrepair", tiles:["tile.sortrepair1","tile.sortrepair2","tile.sortrepair3","tile.sortrepair4","tile.sortrepair7"] },
+	  { key:"group.sortrepair", tiles:["tile.sortrepair1","tile.sortrepair2","tile.sortrepair3","tile.sortrepair4","tile.sortrepair7","tile.sortln1","tile.sortln2","tile.sortln3","tile.sortln4","tile.sortln7"] },
 	  { key:"group.sortonly", tiles:["tile.sortonly4","tile.sortonly5","tile.sortonly6","tile.sortonly7","tile.sortonly20"] },
 	  { key:"group.repaironly", tiles:["tile.repair8","tile.repair9","tile.repair10","tile.repair11","tile.repair12","tile.repair13"] },
 	  { key:"group.press_saw", tiles:[] },
 	  { key:"group.varnish", tiles:[] },
-	  { key:"group.finishing", tiles:[] },
-	  { key:"group.packaging", tiles:[] }
+	  { key:"group.finishing", tiles:["tile.multi1"] }
 
 	];
 
