@@ -13,7 +13,7 @@
     }
     .sidebar {
       width: 250px;
-      background-color: #1e3d2f; /* racing green */
+      background-color: #1e3d2f;
       color: white;
       display: flex;
       flex-direction: column;
@@ -22,12 +22,6 @@
     .sidebar h2 {
       margin: 0 0 20px 0;
       font-size: 18px;
-    }
-    .sidebar select {
-      margin-bottom: 20px;
-      padding: 5px;
-      border-radius: 5px;
-      border: none;
     }
     .sidebar a {
       display: block;
@@ -40,17 +34,10 @@
       border-radius: 8px;
       transition: background-color 0.2s;
     }
-    .sidebar a:hover {
-      background-color: #3f7d63;
-    }
-	.sidebar a.active {
-	  background-color: #76961d;
-	  font-weight: bold;
-	}
-	.sidebar a.active_red {
-	  background-color: #c62828;
-	  font-weight: bold;
-	}
+    .sidebar a:hover       { background-color: #3f7d63; }
+    .sidebar a.active      { background-color: #76961d; font-weight: bold; }
+    .sidebar a.active_red  { background-color: #c62828; font-weight: bold; }
+
     .content {
       flex: 1;
       padding: 20px;
@@ -61,16 +48,13 @@
       color: white;
       font-weight: bold;
       text-align: center;
+      margin-bottom: 12px;
+      border-radius: 5px;
     }
-    header.qas {
-      background-color: #2e7d32; /* groen */
-    }
-    header.live {
-      background-color: #c62828; /* rood */
-    }
-    .accordion-item {
-      margin-bottom: 10px;
-    }
+    header.qas  { background-color: #2e7d32; }
+    header.live { background-color: #c62828; }
+
+    .accordion-item   { margin-bottom: 10px; }
     .accordion-header {
       background-color: #eee;
       padding: 10px;
@@ -87,14 +71,13 @@
       flex-wrap: wrap;
       gap: 10px;
     }
-    .accordion-content.open {
-      padding: 10px;
-    }
-    .tile { 
+    .accordion-content.open { padding: 10px; }
+
+    .tile {
       width: 220px;
       padding: 15px;
       text-align: center;
-      background-color: #2f5d47; /* racing green */
+      background-color: #2f5d47;
       color: white;
       border-radius: 10px;
       border: none;
@@ -103,436 +86,272 @@
       transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
     }
     .tile:hover {
-      background-color: #3f7d63; /* lichter groen */
+      background-color: #3f7d63;
       transform: scale(1.05);
       box-shadow: 4px 4px 12px rgba(0,0,0,0.2);
     }
   </style>
 </head>
 <body>
-  <div class="sidebar">
-    <h2 data-translate="sidebar.title">Navigatie</h2>
-    <select id="languageSelect">
-      <option value="en">English</option>
-      <option value="nl">Nederlands</option>
-      <option value="fr">Français</option>
-      <option value="pt">Português</option>
-    </select>
-    <a href="#" onclick="loadEnv('p010_qas')" data-translate="p010_qas">Ringlaan (P010) QAS</a>
-    <a href="#" onclick="loadEnv('p010_live')" data-translate="p010_live">Ringlaan (P010) LIVE</a>
-    <a href="#" onclick="loadEnv('p040_qas')" data-translate="p040_qas">Decofib (P040) QAS</a>
-    <a href="#" onclick="loadEnv('p040_live')" data-translate="p040_live">Decofib (P040) LIVE</a>
-  </div>
 
-  <div class="content" id="contentArea">
-    <header id="envHeader" class="" data-translate=""></header>
-    <div id="groupsContainer"></div>
-  </div>
+<div class="sidebar">
+  <h2>Navigation</h2>
+  <a href="#" onclick="loadEnv('p010_qas')">Ringlaan (P010) QAS</a>
+  <a href="#" onclick="loadEnv('p010_live')">⚠⚠ Ringlaan (P010) LIVE ⚠⚠</a>
+  <a href="#" onclick="loadEnv('p040_qas')">Decofib (P040) QAS</a>
+  <a href="#" onclick="loadEnv('p040_live')">⚠⚠ Decofib (P040) LIVE ⚠⚠</a>
+</div>
 
-  <script>
-    const translations = {
-      nl: {
-        "sidebar.title": "Navigatie",
-        "p010_qas": "Ringlaan (P010) QAS",
-        "p010_live": "⚠⚠ Ringlaan (P010) LIVE ⚠⚠",
-        "p040_qas": "Decofib (P040) QAS",
-        "p040_live": "⚠⚠ Decofib (P040) LIVE ⚠⚠",
-        "group.grading": "Grading",
-        "group.preparation": "Voorbereiding",
-        "group.splice1": "Voeglijn 1",
-        "group.splice2": "Voeglijn 2",
-        "group.trimming": "Trimming",
-        "group.sortrepair": "Sorteren en herstellen",
-        "group.sortonly": "Sorteren",
-        "group.repaironly": "Herstellen",
-        "group.press_saw": "Pers en zaag",
-	      "group.varnish": "Versnissen",
-	      "group.finishing": "Afwerking",
-        "tile.grading1": "Gradingtafel 1",
-        "tile.grading2": "Gradingtafel 2",
-        "tile.prep1": "Voorbereidingstafel 1",
-        "tile.prep2": "Voorbereidingstafel 2",
-        "tile.splice1in": "Voeglijn 1 input",
-        "tile.splice1m2": "Voegmachine 2",
-		    "tile.splice1m3": "Voegmachine 3",
-        "tile.splice1m4": "Voegmachine 4",
-        "tile.splice2in": "Voeglijn 2 input",
-        "tile.splice2m5": "Voegmachine 5",
-        "tile.splice2m6": "Voegmachine 6",
-        "tile.splice2m7": "Voegmachine 7",
-        "tile.splice2m8": "Voegmachine 8",
-        "tile.trim1": "Trimminglijn 1",
-        "tile.trim2": "Trimminglijn 2",
-        "tile.trim3": "Trimminglijn 3",
-        "tile.cut1": "Cutline 1",
-        "tile.split1": "Split by length 1",
-        "tile.sortrepair1": "Sort & Repair tafel 1",
-        "tile.sortrepair2": "Sort & Repair tafel 2",
-        "tile.sortrepair3": "Sort & Repair tafel 3",
-        "tile.sortrepair4": "Sort & Repair tafel 4",
-        "tile.sortrepair7": "Sort & Repair tafel 7",
-        "tile.sortonly4": "Sorting tafel 4",
-        "tile.sortonly5": "Sorting tafel 5",
-        "tile.sortonly6": "Sorting tafel 6",
-        "tile.sortonly7": "Sorting tafel 7",
-        "tile.sortonly20": "Temp sorting tafel 20",
-        "tile.repair8": "Repair tafel 8",
-        "tile.repair9": "Repair tafel 9",
-        "tile.repair10": "Repair tafel 10",
-        "tile.repair11": "Repair tafel 11",
-        "tile.repair12": "Repair tafel 12",
-        "tile.repair13": "Repair tafel 13",
-        "tile.sortln1": "Sorteerlijn 1",
-        "tile.sortln2": "Sorteerlijn 2",
-        "tile.sortln3": "Sorteerlijn 3",
-        "tile.sortln4": "Sorteerlijn 4",
-        "tile.sortln7": "Sorteerlijn 7",
-        "tile.multi1": "Multilijn",
-        "tile.saw1": "Zaag 1",
-        "tile.saw2": "Zaag 2",
-        "tile.press1": "Pers 1",
-        "tile.press2": "Pers 2"
-      },
-      en: {
-        "sidebar.title": "Navigation",
-        "p010_qas": "Ringlaan (P010) QAS",
-        "p040_qas": "Decofib (P040) QAS",
-        "p040_live": "⚠⚠ Decofib (P040) LIVE ⚠⚠",
-        "group.grading": "Grading",
-        "group.preparation": "Preparation",
-        "group.splice1": "Splicing line 1",
-        "group.splice2": "Splicing line 2",
-        "group.trimming": "Trimming",
-        "group.sortrepair": "Sort and repair",
-        "group.sortonly": "Sort only",
-        "group.repaironly": "Repair only",
-        "group.press_saw": "Press and saw",
-	      "group.varnish": "Varnish",
-	      "group.finishing": "Finishing",
-        "tile.grading1": "Grading table 1",
-        "tile.grading2": "Grading table 2",
-        "tile.prep1": "Preparation table 1",
-        "tile.prep2": "Preparation table 2",
-        "tile.splice1in": "Splicing line 1 input",
-        "tile.splice1m2": "Splicing machine 2",
-        "tile.splice1m3": "Splicing machine 3",
-        "tile.splice1m4": "Splicing machine 4",
-        "tile.splice2in": "Splicing line 2 input",
-        "tile.splice2m5": "Splicing machine 5",
-        "tile.splice2m6": "Splicing machine 6",
-        "tile.splice2m7": "Splicing machine 7",
-        "tile.splice2m8": "Splicing machine 8",
-        "tile.trim1": "Trimming line 1",
-        "tile.trim2": "Trimming line 2",
-        "tile.trim3": "Trimming line 3",
-        "tile.cut1": "Cutline 1",
-        "tile.split1": "Split by length 1",
-        "tile.sortrepair1": "Sort & Repair table 1",
-        "tile.sortrepair2": "Sort & Repair table 2",
-        "tile.sortrepair3": "Sort & Repair table 3",
-        "tile.sortrepair4": "Sort & Repair table 4",
-        "tile.sortonly4": "Sorting table 4",
-        "tile.sortonly5": "Sorting table 5",
-        "tile.sortonly6": "Sorting table 6",
-        "tile.sortonly7": "Sorting table 7",
-        "tile.sortonly20": "Temp sorting table 20",
-        "tile.repair8": "Repair table 8",
-        "tile.repair9": "Repair table 9",
-        "tile.repair10": "Repair table 10",
-        "tile.repair11": "Repair table 11",
-        "tile.repair12": "Repair table 12",
-        "tile.repair13": "Repair table 13",
-        "tile.sortln1": "Sortingline 1",
-        "tile.sortln2": "Sortingline 2",
-        "tile.sortln3": "Sortingline 3",
-        "tile.sortln4": "Sortingline 4",
-        "tile.sortln7": "Sortingline 7",
-        "tile.multi1": "Multiline",
-        "tile.saw1": "Saw 1",
-        "tile.saw2": "Saw 2",
-        "tile.press1": "Press 1",
-        "tile.press2": "Press 2"
-      },
-      fr: {
-        "sidebar.title": "Navigation",
-        "p010_qas": "Ringlaan (P010) QAS",
-        "p040_qas": "Decofib (P040) QAS",
-        "p040_live": "⚠⚠ Decofib (P040) LIVE ⚠⚠",
-        "group.grading": "Classement",
-        "group.preparation": "Préparation",
-        "group.splice1": "Ligne de jointage 1",
-        "group.splice2": "Ligne de jointage 2",
-        "group.trimming": "Découpe",
-        "group.sortrepair": "Triage et réparation",
-        "group.sortonly": "Triage",
-		    "group.repaironly": "Réparation",
-        "group.press_saw": "Presse et scie",
-	      "group.varnish": "Vernis",
-	      "group.finishing": "Finition",
-        "tile.grading1": "Table de classement 1",
-        "tile.grading2": "Table de classement 2",
-        "tile.prep1": "Table de préparation 1",
-        "tile.prep2": "Table de préparation 2",
-        "tile.splice1in": "Entrée ligne 1 jointage",
-        "tile.splice1m2": "Machine de jointage 2",
-        "tile.splice1m3": "Machine de jointage 3",
-        "tile.splice1m4": "Machine de jointage 4",
-        "tile.splice2in": "Entrée ligne 2 jointage",
-        "tile.splice2m5": "Machine de jointage 5",
-        "tile.splice2m6": "Machine de jointage 6",
-        "tile.splice2m7": "Machine de jointage 7",
-        "tile.splice2m8": "Machine de jointage 8",
-        "tile.trim1": "Ligne de découpe 1",
-        "tile.trim2": "Ligne de découpe 2",
-        "tile.trim3": "Ligne de découpe 3",
-        "tile.cut1": "Cutline 1",
-        "tile.split1": "Split by length 1",
-        "tile.sortrepair1": "Table tri & réparation 1",
-        "tile.sortrepair2": "Table tri & réparation 2",
-        "tile.sortrepair3": "Table tri & réparation 3",
-        "tile.sortrepair4": "Table tri & réparation 4",
-        "tile.sortonly4": "Table de tri 4",
-        "tile.sortonly5": "Table de tri 5",
-        "tile.sortonly6": "Table de tri 6",
-        "tile.sortonly7": "Table de tri 7",
-		    "tile.sortonly20": "Temp table de tri 20",
-        "tile.repair8": "Table de réparation 8",
-        "tile.repair9": "Table de réparation 9",
-        "tile.repair10": "Table de réparation 10",
-        "tile.repair11": "Table de réparation 11",
-        "tile.repair12": "Table de réparation 12",
-        "tile.repair13": "Table de réparation 13",
-        "tile.sortln1": "Ligne de triage 1",
-        "tile.sortln2": "Ligne de triage 2",
-        "tile.sortln3": "Ligne de triage 3",
-        "tile.sortln4": "Ligne de triage 4",
-        "tile.sortln7": "Ligne de triage 7",
-        "tile.multi1": "Ligne de finition",
-        "tile.saw1": "Scie 1",
-        "tile.saw2": "Scie 2",
-        "tile.press1": "Presse 1",
-        "tile.press2": "Presse 2"
+<div class="content" id="contentArea">
+  <header id="envHeader"></header>
+  <div id="groupsContainer"></div>
+</div>
 
-      },
-      pt: {
-        "sidebar.title": "Navegação",
-        "p010_qas": "Ringlaan (P010) QAS",
-        "p040_qas": "Decofib (P040) QAS",
-        "p040_live": "⚠⚠Decofib (P040) LIVE⚠⚠",
-        "group.grading": "Classificação",
-        "group.preparation": "Preparação",
-        "group.splice1": "Linha de emenda 1",
-        "group.splice2": "Linha de emenda 2",
-        "group.trimming": "Corte",
-        "group.sortrepair": "Classificar e reparar",
-        "group.sortonly": "Classificar",
-        "group.repaironly": "Reparar",
-        "group.press_saw": "Prensa e serra",
-	      "group.varnish": "Acabamento",
-	      "group.finishing": "Afwerking",
-        "tile.grading1": "Mesa de classificação 1",
-        "tile.grading2": "Mesa de classificação 2",
-        "tile.prep1": "Mesa de preparação 1",
-        "tile.prep2": "Mesa de preparação 2",
-        "tile.splice1in": "Entrada linha de emenda 1",
-        "tile.splice1m2": "Máquina de emenda 2",
-        "tile.splice1m3": "Máquina de emenda 3",
-        "tile.splice1m4": "Máquina de emenda 4",
-        "tile.splice2in": "Entrada linha de emenda 2",
-        "tile.splice2m5": "Máquina de emenda 5",
-        "tile.splice2m6": "Máquina de emenda 6",
-        "tile.splice2m7": "Máquina de emenda 7",
-        "tile.splice2m8": "Máquina de emenda 8",
-        "tile.trim1": "Linha de corte 1",
-        "tile.trim2": "Linha de corte 2",
-        "tile.trim3": "Linha de corte 3",
-        "tile.cut1": "Cutline 1",
-        "tile.split1": "Split by length 1",
-        "tile.sortrepair1": "Mesa de classificação & reparoção 1",
-        "tile.sortrepair2": "Mesa de classificação & reparação 2",
-        "tile.sortrepair3": "Mesa de classificação & reparação 3",
-        "tile.sortrepair4": "Mesa de classificação & reparação 4",
-        "tile.sortrepair7": "Mesa de classificação & reparação 7",
-        "tile.sortonly4": "Mesa de classificação 4",
-        "tile.sortonly5": "Mesa de classificação 5",
-        "tile.sortonly6": "Mesa de classificação 6",
-        "tile.sortonly7": "Mesa de classificação 7",
-        "tile.sortonly20": "Temp mesa de classificação 20",
-        "tile.repair8": "Mesa de reparação 8",
-        "tile.repair9": "Mesa de reparação 9",
-        "tile.repair10": "Mesa de reparação 10",
-        "tile.repair11": "Mesa de reparação 11",
-        "tile.repair12": "Mesa de reparação 12",
-        "tile.repair13": "Mesa de reparação 13",
-        "tile.sortln1": "Linha de classificação 1",
-        "tile.sortln2": "Linha de classificação 2",
-        "tile.sortln3": "Linha de classificação 3",
-        "tile.sortln4": "Linha de classificação 4",
-        "tile.sortln7": "Linha de classificação 7",
-        "tile.multi1": "Linha de acabamento",
-        "tile.saw1": "Serra 1",
-        "tile.saw2": "Serra 2",
-        "tile.press1": "Prensa 1",
-        "tile.press2": "Prensa 2"
-      }
-    };
-	
-	function buildPodUrl({ env, podVersion, podId, workcenter, resource }) {
-		const base = env === "live"
-        ?"https://dcsn-sap-dm-prd.execution.eu20-prod.web.dmc.cloud.sap"
-        :"https://dcsn-sap-dm-dev-251030.execution.eu20-quality.web.dmc.cloud.sap";
+<script>
+  // ── Translations ────────────────────────────────────────────────────────────
+  const translations = {
+    "p010_qas":  "Ringlaan (P010) QAS",
+    "p010_live": "⚠⚠ Ringlaan (P010) LIVE ⚠⚠",
+    "p040_qas":  "Decofib (P040) QAS",
+    "p040_live": "⚠⚠ Decofib (P040) LIVE ⚠⚠",
 
-      return podVersion === 1
-		     ?`${base}/cp.portal/site#DMEWorkCenterPOD-Display` + `?POD_ID=${podId}` + `&sap-app-origin-hint=` + `&/?=` + `&WORKCENTER=${workcenter}` + `&RESOURCE=${resource}`
-         :`${base}/sapdmdmepod2/pod.html?POD_ID=${podId}` + `&sap-app-origin-hint=` + `&/?=` + `&WORK_CENTER=${workcenter}` + `&RESOURCE=${resource}`
+    "group.grading":     "Grading",
+    "group.preparation": "Preparation",
+    "group.splice1":     "Splicing line 1",
+    "group.splice2":     "Splicing line 2",
+    "group.trimming":    "Trimming",
+    "group.sortrepair":  "Sort and repair",
+    "group.sortonly":    "Sort only",
+    "group.repaironly":  "Repair only",
+    "group.press_saw":   "Press and saw",
+    "group.varnish":     "Varnish",
+    "group.finishing":   "Finishing",
+
+    "tile.grading1":    "Grading table 1",
+    "tile.grading2":    "Grading table 2",
+    "tile.prep1":       "Preparation table 1",
+    "tile.prep2":       "Preparation table 2",
+    "tile.splice1in":   "Splicing line 1 input",
+    "tile.splice1m2":   "Splicing machine 2",
+    "tile.splice1m3":   "Splicing machine 3",
+    "tile.splice1m4":   "Splicing machine 4",
+    "tile.splice2in":   "Splicing line 2 input",
+    "tile.splice2m5":   "Splicing machine 5",
+    "tile.splice2m6":   "Splicing machine 6",
+    "tile.splice2m7":   "Splicing machine 7",
+    "tile.splice2m8":   "Splicing machine 8",
+    "tile.trim1":       "Trimming line 1",
+    "tile.trim2":       "Trimming line 2",
+    "tile.trim3":       "Trimming line 3",
+    "tile.cut1":        "Cutline 1",
+    "tile.split1":      "Split by length 1",
+    "tile.sortrepair1": "Sort & Repair table 1",
+    "tile.sortrepair2": "Sort & Repair table 2",
+    "tile.sortrepair3": "Sort & Repair table 3",
+    "tile.sortrepair4": "Sort & Repair table 4",
+    "tile.sortonly4":   "Sorting table 4",
+    "tile.sortonly5":   "Sorting table 5",
+    "tile.sortonly6":   "Sorting table 6",
+    "tile.sortonly7":   "Sorting table 7",
+    "tile.sortonly20":  "Temp sorting table 20",
+    "tile.repair8":     "Repair table 8",
+    "tile.repair9":     "Repair table 9",
+    "tile.repair10":    "Repair table 10",
+    "tile.repair11":    "Repair table 11",
+    "tile.repair12":    "Repair table 12",
+    "tile.repair13":    "Repair table 13",
+    "tile.sortln1":     "Sortingline 1",
+    "tile.sortln2":     "Sortingline 2",
+    "tile.sortln3":     "Sortingline 3",
+    "tile.sort4":       "Sortingtable 4",
+    "tile.sort5":       "Sortingtable 5",
+    "tile.sort6":       "Sortingtable 6",
+    "tile.sortln7":     "Sortingline 7",
+    "tile.multi1":      "Multiline 1",
+    "tile.multi3":      "Multiline 3 (brushing wide)",
+    "tile.sand1":       "Sandingline 1",
+    "tile.pack1":       "Packingline 1",
+    "tile.saw1":        "Saw 1",
+    "tile.saw2":        "Saw 2",
+    "tile.saw3":        "Saw 3 (Gabiani)",
+    "tile.press2":      "Press 2",
+    "tile.press3":      "Press 3",
+    "tile.varnish1":    "Varnish 1",
+    "tile.varnish2":    "Varnish 2",
+    "tile.varnish4":    "Varnish 4",
+    "tile.varnish5":    "Varnish 5"
+  };
+
+  // ── URL builder ─────────────────────────────────────────────────────────────
+  function buildPodUrl({ env, podVersion, podId, workcenter, resource }) {
+    const base = env === "live"
+      ? "https://dcsn-sap-dm-prd.execution.eu20-prod.web.dmc.cloud.sap"
+      : "https://dcsn-sap-dm-dev-251030.execution.eu20-quality.web.dmc.cloud.sap";
+
+    // podVersion must be a number (1 or 2) for the strict comparison below
+    return podVersion === 1
+      ? `${base}/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=${podId}&sap-app-origin-hint=&/?=&WORKCENTER=${workcenter}&RESOURCE=${resource}`
+      : `${base}/sapdmdmepod2/pod.html?POD_ID=${podId}&sap-app-origin-hint=&/?=&WORK_CENTER=${workcenter}&RESOURCE=${resource}`;
   }
-	
-	// Links per tile en per omgeving
-	const links = {
-	  p010_qas: {
-			"tile.grading1":() => buildPodUrl({ env:"qas", podVersion:"2", podId:"GRADE1", workcenter:"GRADELN1", resource:"GRADE1"}),
-			"tile.grading2":() => buildPodUrl({ env:"qas", podVersion:"2", podId:"GRADE2", workcenter:"GRADELN1", resource:"GRADE2"}),
-			"tile.sortln1":() => buildPodUrl({ env:"qas", podVersion:"2", podId:"SORT1", workcenter:"SORTLN1", resource:"SORT1"}),
-			"tile.sortln3":() => buildPodUrl({ env:"qas", podVersion:"2", podId:"SORT3", workcenter:"SORTLN3", resource:"SORT3"}),
-			"tile.sortln7":() => buildPodUrl({ env:"qas", podVersion:"2", podId:"SORT7", workcenter:"SORTLN7", resource:"SORT7"}),
-			"tile.multi1":() => buildPodUrl({ env:"qas", podVersion:"2", podId:"MULTI1", workcenter:"MULTI1", resource:"MULTI1"}),
-			"tile.saw1":() => buildPodUrl({ env:"qas", podVersion:"2", podId:"SAW1", workcenter:"SAW1", resource:"SAW"}),
-			"tile.saw2":() => buildPodUrl({ env:"qas", podVersion:"2", podId:"SAW2", workcenter:"SAW2", resource:"SAW2"}),
-			"tile.press1":() => buildPodUrl({ env:"qas", podVersion:"2", podId:"PRESS1", workcenter:"PRESS1", resource:"PRESS1"}),
-			"tile.press2":() => buildPodUrl({ env:"qas", podVersion:"2", podId:"PRESS2", workcenter:"PRESS1", resource:"PRESS2"})
 
-				},
-	  p010_live: {
+  // ── Links per tile per environment ──────────────────────────────────────────
+  const links = {
+    p010_qas: {
+      "tile.grading1": () => buildPodUrl({ env:"qas", podVersion:2, podId:"GRADE1",   workcenter:"GRADELN1", resource:"GRADE1"   }),
+      "tile.grading2": () => buildPodUrl({ env:"qas", podVersion:2, podId:"GRADE2",   workcenter:"GRADELN1", resource:"GRADE2"   }),
+      "tile.sortln1":  () => buildPodUrl({ env:"qas", podVersion:2, podId:"SORT1",    workcenter:"SORTLN1",  resource:"SORT1"    }),
+      "tile.sortln3":  () => buildPodUrl({ env:"qas", podVersion:2, podId:"SORT3",    workcenter:"SORTLN3",  resource:"SORT3"    }),
+      "tile.sort4":    () => buildPodUrl({ env:"qas", podVersion:2, podId:"SORT4",    workcenter:"SORTLN4",  resource:"SORT4"    }),
+      "tile.sort5":    () => buildPodUrl({ env:"qas", podVersion:2, podId:"SORT4",    workcenter:"SORTLN4",  resource:"SORT5"    }),
+      "tile.sort6":    () => buildPodUrl({ env:"qas", podVersion:2, podId:"SORT4",    workcenter:"SORTLN4",  resource:"SORT6"    }),
+      "tile.sortln7":  () => buildPodUrl({ env:"qas", podVersion:2, podId:"SORT7",    workcenter:"SORTLN7",  resource:"SORT7"    }),
+      "tile.multi1":   () => buildPodUrl({ env:"qas", podVersion:2, podId:"MULTI1",   workcenter:"MULTI1",   resource:"MULTI1"   }),
+      "tile.multi3":   () => buildPodUrl({ env:"qas", podVersion:2, podId:"MULTI",    workcenter:"MULTI3",   resource:"MULTI3"   }),
+      "tile.saw1":     () => buildPodUrl({ env:"qas", podVersion:2, podId:"SAW1",     workcenter:"SAW1",     resource:"SAW1"     }),
+      "tile.saw2":     () => buildPodUrl({ env:"qas", podVersion:2, podId:"SAW2",     workcenter:"SAW2",     resource:"SAW2"     }),
+      "tile.saw3":     () => buildPodUrl({ env:"qas", podVersion:2, podId:"SAW2",     workcenter:"SAW2",     resource:"SAW2"     }),
+      "tile.press2":   () => buildPodUrl({ env:"qas", podVersion:2, podId:"PRESS2",   workcenter:"PRESS2",   resource:"PRESS2"   }),
+      "tile.press3":   () => buildPodUrl({ env:"qas", podVersion:2, podId:"PRESS3",   workcenter:"PRESS3",   resource:"PRESS3"   }),
+      "tile.sand1":    () => buildPodUrl({ env:"qas", podVersion:2, podId:"SAND1",    workcenter:"SAND1",    resource:"SAND1"    }),
+      "tile.pack1":    () => buildPodUrl({ env:"qas", podVersion:2, podId:"PACK1",    workcenter:"PACK1",    resource:"PACK1"    }),
+      "tile.varnish1": () => buildPodUrl({ env:"qas", podVersion:2, podId:"VARNISH",  workcenter:"VARNISH1", resource:"VARNISH1" }),
+      "tile.varnish2": () => buildPodUrl({ env:"qas", podVersion:2, podId:"VARNISH",  workcenter:"VARNISH2", resource:"VARNISH2" }),
+      "tile.varnish4": () => buildPodUrl({ env:"qas", podVersion:2, podId:"VARNISH",  workcenter:"VARNISH4", resource:"VARNISH4" }),
+      "tile.varnish5": () => buildPodUrl({ env:"qas", podVersion:2, podId:"VARNISH5", workcenter:"VARNISH5", resource:"VARNISH5" })
+    },
 
-				},
-	  p040_qas: {
-			"tile.grading1":   () => buildPodUrl({ env:"qas", podVersion:"1", podId:"ZD_GUIDED_GRADE", workcenter:"GRADELN1", resource:"GRADE1"}),
-			"tile.grading2":   () => buildPodUrl({ env:"qas", podVersion:"1", podId:"ZD_GUIDED_GRADE", workcenter:"GRADELN1", resource:"GRADE2"}),
-			"tile.prep1":      () => buildPodUrl({ env:"qas", podVersion:"1", podId:"ZD_GUIDED_PREP",  workcenter:"PREPLN1", resource:"PREP1"}),
-			"tile.prep2":      () => buildPodUrl({ env:"qas", podVersion:"1", podId:"ZD_GUIDED_PREP",  workcenter:"PREPLN1", resource:"PREP2"}),
-			"tile.splice1in":  () => buildPodUrl({ env:"qas", podVersion:"1", podId:"ZD_GUIDED_SPLICE_IN",  workcenter:"SPLICEL1", resource:"SPLICEL1"}),
-			"tile.splice1m2":  () => buildPodUrl({ env:"qas", podVersion:"1", podId:"ZD_GUIDED_SPLICE_OUT", workcenter:"SPLICEL1", resource:"SPLICE2"}),
-			"tile.splice1m3":  () => buildPodUrl({ env:"qas", podVersion:"1", podId:"ZD_GUIDED_SPLICE_OUT", workcenter:"SPLICEL1", resource:"SPLICE3"}),
-			"tile.splice1m4":  () => buildPodUrl({ env:"qas", podVersion:"1", podId:"ZD_GUIDED_SPLICE_OUT", workcenter:"SPLICEL1", resource:"SPLICE4"}),
-			"tile.splice2in":  () => buildPodUrl({ env:"qas", podVersion:"1", podId:"ZD_GUIDED_SPLICE_IN",  workcenter:"SPLICEL2", resource:"SPLICEL2"}),
-			"tile.splice2m5":  () => buildPodUrl({ env:"qas", podVersion:"1", podId:"ZD_GUIDED_SPLICE_OUT", workcenter:"SPLICEL2", resource:"SPLICE5"}),
-			"tile.splice2m6":  () => buildPodUrl({ env:"qas", podVersion:"1", podId:"ZD_GUIDED_SPLICE_OUT", workcenter:"SPLICEL2", resource:"SPLICE6"}),
-			"tile.splice2m7":  () => buildPodUrl({ env:"qas", podVersion:"1", podId:"ZD_GUIDED_SPLICE_OUT", workcenter:"SPLICEL2", resource:"SPLICE7"}),
-			"tile.splice2m8":  () => buildPodUrl({ env:"qas", podVersion:"1", podId:"ZD_GUIDED_SPLICE_OUT", workcenter:"SPLICEL2", resource:"SPLICE8"}),
-			"tile.trim1":      () => buildPodUrl({ env:"qas", podVersion:"1", podId:"ZD_GUIDED_TRIM", workcenter:"TRIMLN1", resource:"TRIMLN1"}),
-			"tile.trim2":      () => buildPodUrl({ env:"qas", podVersion:"1", podId:"ZD_GUIDED_TRIM", workcenter:"TRIMLN2", resource:"TRIMLN2"}),
-			"tile.trim3":      () => buildPodUrl({ env:"qas", podVersion:"1", podId:"ZD_GUIDED_TRIM", workcenter:"TRIMLN3", resource:"TRIMLN3"}),
-			"tile.cut1":       () => buildPodUrl({ env:"qas", podVersion:"1", podId:"ZD_GUIDED_TRIM", workcenter:"CUTLN1", resource:"CUTLN1"}),
-			"tile.split1":     () => buildPodUrl({ env:"qas", podVersion:"1", podId:"ZD_GUIDED_SPLITBYLENGTH", workcenter:"SPLITLN1", resource:"SPLITLN1"}),
-			"tile.sortrepair1":() => buildPodUrl({ env:"qas", podVersion:"1", podId:"ZD_GUIDED_SORT_REPAIR", workcenter:"SORTLN1", resource:"SORT1_1"}),
-			"tile.sortrepair2":() => buildPodUrl({ env:"qas", podVersion:"1", podId:"ZD_GUIDED_SORT_REPAIR", workcenter:"SORTLN1", resource:"SORT1_2"}),
-			"tile.sortrepair3":() => buildPodUrl({ env:"qas", podVersion:"1", podId:"ZD_GUIDED_SORT_REPAIR", workcenter:"SORTLN1", resource:"SORT1_3"}),
-			"tile.sortrepair4":() => buildPodUrl({ env:"qas", podVersion:"1", podId:"ZD_GUIDED_SORT_REPAIR", workcenter:"SORTLN1", resource:"SORT1_4"}),
-			"tile.sortonly4":  () => buildPodUrl({ env:"qas", podVersion:"1", podId:"ZD_GUIDED_SORT_ONLY", workcenter:"SORTLN2", resource:"SORT2_1"}),
-			"tile.sortonly5":  () => buildPodUrl({ env:"qas", podVersion:"1", podId:"ZD_GUIDED_SORT_ONLY", workcenter:"SORTLN2", resource:"SORT2_2"}),
-			"tile.sortonly6":  () => buildPodUrl({ env:"qas", podVersion:"1", podId:"ZD_GUIDED_SORT_ONLY", workcenter:"SORTLN2", resource:"SORT2_3"}),
-			"tile.sortonly7":  () => buildPodUrl({ env:"qas", podVersion:"1", podId:"ZD_GUIDED_SORT_ONLY", workcenter:"SORTLN2", resource:"SORT2_4"}),
-			"tile.sortonly20": () => buildPodUrl({ env:"qas", podVersion:"1", podId:"ZD_GUIDED_SORT_ONLY", workcenter:"SORTLN2", resource:"SORT2_20"}),
-			"tile.repair8":    () => buildPodUrl({ env:"qas", podVersion:"1", podId:"ZD_GUIDED_REPAIR_ONLY", workcenter:"SORTLN3", resource:"SORT3_1"}),
-			"tile.repair9":    () => buildPodUrl({ env:"qas", podVersion:"1", podId:"ZD_GUIDED_REPAIR_ONLY", workcenter:"SORTLN3", resource:"SORT3_2"}),
-			"tile.repair10":   () => buildPodUrl({ env:"qas", podVersion:"1", podId:"ZD_GUIDED_REPAIR_ONLY", workcenter:"SORTLN3", resource:"SORT3_3"}),
-			"tile.repair11":   () => buildPodUrl({ env:"qas", podVersion:"1", podId:"ZD_GUIDED_REPAIR_ONLY", workcenter:"SORTLN3", resource:"SORT3_4"}),
-			"tile.repair12":   () => buildPodUrl({ env:"qas", podVersion:"1", podId:"ZD_GUIDED_REPAIR_ONLY", workcenter:"SORTLN3", resource:"SORT3_5"}),
-			"tile.repair13":   () => buildPodUrl({ env:"qas", podVersion:"1", podId:"ZD_GUIDED_REPAIR_ONLY", workcenter:"SORTLN3", resource:"SORT3_6"})
-	  },
-	  p040_live: {
-			"tile.grading1":   () => buildPodUrl({ env:"live", podVersion:"1", podId:"ZD_GUIDED_GRADE", workcenter:"GRADELN1", resource:"GRADE1"}),
-			"tile.grading2":   () => buildPodUrl({ env:"live", podVersion:"1", podId:"ZD_GUIDED_GRADE", workcenter:"GRADELN1", resource:"GRADE2"}),
-			"tile.prep1":      () => buildPodUrl({ env:"live", podVersion:"1", podId:"ZD_GUIDED_PREP",  workcenter:"PREPLN1", resource:"PREP1"}),
-			"tile.prep2":      () => buildPodUrl({ env:"live", podVersion:"1", podId:"ZD_GUIDED_PREP",  workcenter:"PREPLN1", resource:"PREP2"}),
-			"tile.splice1in":  () => buildPodUrl({ env:"live", podVersion:"1", podId:"ZD_GUIDED_SPLICE_IN",  workcenter:"SPLICEL1", resource:"SPLICEL1"}),
-			"tile.splice1m2":  () => buildPodUrl({ env:"live", podVersion:"1", podId:"ZD_GUIDED_SPLICE_OUT", workcenter:"SPLICEL1", resource:"SPLICE2"}),
-			"tile.splice1m3":  () => buildPodUrl({ env:"live", podVersion:"1", podId:"ZD_GUIDED_SPLICE_OUT", workcenter:"SPLICEL1", resource:"SPLICE3"}),
-			"tile.splice1m4":  () => buildPodUrl({ env:"live", podVersion:"1", podId:"ZD_GUIDED_SPLICE_OUT", workcenter:"SPLICEL1", resource:"SPLICE4"}),
-			"tile.splice2in":  () => buildPodUrl({ env:"live", podVersion:"1", podId:"ZD_GUIDED_SPLICE_IN",  workcenter:"SPLICEL2", resource:"SPLICEL2"}),
-			"tile.splice2m5":  () => buildPodUrl({ env:"live", podVersion:"1", podId:"ZD_GUIDED_SPLICE_OUT", workcenter:"SPLICEL2", resource:"SPLICE5"}),
-			"tile.splice2m6":  () => buildPodUrl({ env:"live", podVersion:"1", podId:"ZD_GUIDED_SPLICE_OUT", workcenter:"SPLICEL2", resource:"SPLICE6"}),
-			"tile.splice2m7":  () => buildPodUrl({ env:"live", podVersion:"1", podId:"ZD_GUIDED_SPLICE_OUT", workcenter:"SPLICEL2", resource:"SPLICE7"}),
-			"tile.splice2m8":  () => buildPodUrl({ env:"live", podVersion:"1", podId:"ZD_GUIDED_SPLICE_OUT", workcenter:"SPLICEL2", resource:"SPLICE8"}),
-			"tile.trim1":      () => buildPodUrl({ env:"live", podVersion:"1", podId:"ZD_GUIDED_TRIM", workcenter:"TRIMLN1", resource:"TRIMLN1"}),
-			"tile.trim2":      () => buildPodUrl({ env:"live", podVersion:"1", podId:"ZD_GUIDED_TRIM", workcenter:"TRIMLN2", resource:"TRIMLN2"}),
-			"tile.trim3":      () => buildPodUrl({ env:"live", podVersion:"1", podId:"ZD_GUIDED_TRIM", workcenter:"TRIMLN3", resource:"TRIMLN3"}),
-			"tile.cut1":       () => buildPodUrl({ env:"live", podVersion:"1", podId:"ZD_GUIDED_TRIM", workcenter:"CUTLN1", resource:"CUTLN1"}),
-			"tile.split1":     () => buildPodUrl({ env:"live", podVersion:"1", podId:"ZD_GUIDED_SPLITBYLENGTH", workcenter:"SPLITLN1", resource:"SPLITLN1"}),
-			"tile.sortrepair1":() => buildPodUrl({ env:"live", podVersion:"1", podId:"ZD_GUIDED_SORT_REPAIR", workcenter:"SORTLN1", resource:"SORT1_1"}),
-			"tile.sortrepair2":() => buildPodUrl({ env:"live", podVersion:"1", podId:"ZD_GUIDED_SORT_REPAIR", workcenter:"SORTLN1", resource:"SORT1_2"}),
-			"tile.sortrepair3":() => buildPodUrl({ env:"live", podVersion:"1", podId:"ZD_GUIDED_SORT_REPAIR", workcenter:"SORTLN1", resource:"SORT1_3"}),
-			"tile.sortrepair4":() => buildPodUrl({ env:"live", podVersion:"1", podId:"ZD_GUIDED_SORT_REPAIR", workcenter:"SORTLN1", resource:"SORT1_4"}),
-			"tile.sortonly4":  () => buildPodUrl({ env:"live", podVersion:"1", podId:"ZD_GUIDED_SORT_ONLY", workcenter:"SORTLN2", resource:"SORT2_1"}),
-			"tile.sortonly5":  () => buildPodUrl({ env:"live", podVersion:"1", podId:"ZD_GUIDED_SORT_ONLY", workcenter:"SORTLN2", resource:"SORT2_2"}),
-			"tile.sortonly6":  () => buildPodUrl({ env:"live", podVersion:"1", podId:"ZD_GUIDED_SORT_ONLY", workcenter:"SORTLN2", resource:"SORT2_3"}),
-			"tile.sortonly7":  () => buildPodUrl({ env:"live", podVersion:"1", podId:"ZD_GUIDED_SORT_ONLY", workcenter:"SORTLN2", resource:"SORT2_4"}),
-			"tile.sortonly20": () => buildPodUrl({ env:"live", podVersion:"1", podId:"ZD_GUIDED_SORT_ONLY", workcenter:"SORTLN2", resource:"SORT2_20"}),
-			"tile.repair8":    () => buildPodUrl({ env:"live", podVersion:"1", podId:"ZD_GUIDED_REPAIR_ONLY", workcenter:"SORTLN3", resource:"SORT3_1"}),
-			"tile.repair9":    () => buildPodUrl({ env:"live", podVersion:"1", podId:"ZD_GUIDED_REPAIR_ONLY", workcenter:"SORTLN3", resource:"SORT3_2"}),
-			"tile.repair10":   () => buildPodUrl({ env:"live", podVersion:"1", podId:"ZD_GUIDED_REPAIR_ONLY", workcenter:"SORTLN3", resource:"SORT3_3"}),
-			"tile.repair11":   () => buildPodUrl({ env:"live", podVersion:"1", podId:"ZD_GUIDED_REPAIR_ONLY", workcenter:"SORTLN3", resource:"SORT3_4"}),
-			"tile.repair12":   () => buildPodUrl({ env:"live", podVersion:"1", podId:"ZD_GUIDED_REPAIR_ONLY", workcenter:"SORTLN3", resource:"SORT3_5"}),
-			"tile.repair13":   () => buildPodUrl({ env:"live", podVersion:"1", podId:"ZD_GUIDED_REPAIR_ONLY", workcenter:"SORTLN3", resource:"SORT3_6"})
-	  }
-	};
+    p010_live: {
+      // add entries when available
+    },
 
-    const groups = [
-	  { key:"group.grading", tiles:["tile.grading1","tile.grading2"] },
-	  { key:"group.preparation", tiles:["tile.prep1","tile.prep2","tile.split1"] },
-	  { key:"group.splice1", tiles:["tile.splice1in","tile.splice1m2","tile.splice1m3","tile.splice1m4"] },
-	  { key:"group.splice2", tiles:["tile.splice2in","tile.splice2m5","tile.splice2m6","tile.splice2m7","tile.splice2m8"] },
-	  { key:"group.trimming", tiles:["tile.trim1","tile.trim2","tile.trim3","tile.cut1"] },
-	  { key:"group.sortrepair", tiles:["tile.sortrepair1","tile.sortrepair2","tile.sortrepair3","tile.sortrepair4","tile.sortrepair7","tile.sortln1","tile.sortln2","tile.sortln3","tile.sortln4","tile.sortln7"] },
-	  { key:"group.sortonly", tiles:["tile.sortonly4","tile.sortonly5","tile.sortonly6","tile.sortonly7","tile.sortonly20"] },
-	  { key:"group.repaironly", tiles:["tile.repair8","tile.repair9","tile.repair10","tile.repair11","tile.repair12","tile.repair13"] },
-	  { key:"group.press_saw", tiles:["tile.saw1", "tile.saw2", "tile.press2", "tile.press3"] },
-	  { key:"group.varnish", tiles:[] },
-	  { key:"group.finishing", tiles:["tile.multi1"] }
+    p040_qas: {
+      "tile.grading1":    () => buildPodUrl({ env:"qas", podVersion:1, podId:"ZD_GUIDED_GRADE",          workcenter:"GRADELN1", resource:"GRADE1"   }),
+      "tile.grading2":    () => buildPodUrl({ env:"qas", podVersion:1, podId:"ZD_GUIDED_GRADE",          workcenter:"GRADELN1", resource:"GRADE2"   }),
+      "tile.prep1":       () => buildPodUrl({ env:"qas", podVersion:1, podId:"ZD_GUIDED_PREP",           workcenter:"PREPLN1",  resource:"PREP1"    }),
+      "tile.prep2":       () => buildPodUrl({ env:"qas", podVersion:1, podId:"ZD_GUIDED_PREP",           workcenter:"PREPLN1",  resource:"PREP2"    }),
+      "tile.splice1in":   () => buildPodUrl({ env:"qas", podVersion:1, podId:"ZD_GUIDED_SPLICE_IN",      workcenter:"SPLICEL1", resource:"SPLICEL1" }),
+      "tile.splice1m2":   () => buildPodUrl({ env:"qas", podVersion:1, podId:"ZD_GUIDED_SPLICE_OUT",     workcenter:"SPLICEL1", resource:"SPLICE2"  }),
+      "tile.splice1m3":   () => buildPodUrl({ env:"qas", podVersion:1, podId:"ZD_GUIDED_SPLICE_OUT",     workcenter:"SPLICEL1", resource:"SPLICE3"  }),
+      "tile.splice1m4":   () => buildPodUrl({ env:"qas", podVersion:1, podId:"ZD_GUIDED_SPLICE_OUT",     workcenter:"SPLICEL1", resource:"SPLICE4"  }),
+      "tile.splice2in":   () => buildPodUrl({ env:"qas", podVersion:1, podId:"ZD_GUIDED_SPLICE_IN",      workcenter:"SPLICEL2", resource:"SPLICEL2" }),
+      "tile.splice2m5":   () => buildPodUrl({ env:"qas", podVersion:1, podId:"ZD_GUIDED_SPLICE_OUT",     workcenter:"SPLICEL2", resource:"SPLICE5"  }),
+      "tile.splice2m6":   () => buildPodUrl({ env:"qas", podVersion:1, podId:"ZD_GUIDED_SPLICE_OUT",     workcenter:"SPLICEL2", resource:"SPLICE6"  }),
+      "tile.splice2m7":   () => buildPodUrl({ env:"qas", podVersion:1, podId:"ZD_GUIDED_SPLICE_OUT",     workcenter:"SPLICEL2", resource:"SPLICE7"  }),
+      "tile.splice2m8":   () => buildPodUrl({ env:"qas", podVersion:1, podId:"ZD_GUIDED_SPLICE_OUT",     workcenter:"SPLICEL2", resource:"SPLICE8"  }),
+      "tile.trim1":       () => buildPodUrl({ env:"qas", podVersion:1, podId:"ZD_GUIDED_TRIM",           workcenter:"TRIMLN1",  resource:"TRIMLN1"  }),
+      "tile.trim2":       () => buildPodUrl({ env:"qas", podVersion:1, podId:"ZD_GUIDED_TRIM",           workcenter:"TRIMLN2",  resource:"TRIMLN2"  }),
+      "tile.trim3":       () => buildPodUrl({ env:"qas", podVersion:1, podId:"ZD_GUIDED_TRIM",           workcenter:"TRIMLN3",  resource:"TRIMLN3"  }),
+      "tile.cut1":        () => buildPodUrl({ env:"qas", podVersion:1, podId:"ZD_GUIDED_TRIM",           workcenter:"CUTLN1",   resource:"CUTLN1"   }),
+      "tile.split1":      () => buildPodUrl({ env:"qas", podVersion:1, podId:"ZD_GUIDED_SPLITBYLENGTH",  workcenter:"SPLITLN1", resource:"SPLITLN1" }),
+      "tile.sortrepair1": () => buildPodUrl({ env:"qas", podVersion:1, podId:"ZD_GUIDED_SORT_REPAIR",    workcenter:"SORTLN1",  resource:"SORT1_1"  }),
+      "tile.sortrepair2": () => buildPodUrl({ env:"qas", podVersion:1, podId:"ZD_GUIDED_SORT_REPAIR",    workcenter:"SORTLN1",  resource:"SORT1_2"  }),
+      "tile.sortrepair3": () => buildPodUrl({ env:"qas", podVersion:1, podId:"ZD_GUIDED_SORT_REPAIR",    workcenter:"SORTLN1",  resource:"SORT1_3"  }),
+      "tile.sortrepair4": () => buildPodUrl({ env:"qas", podVersion:1, podId:"ZD_GUIDED_SORT_REPAIR",    workcenter:"SORTLN1",  resource:"SORT1_4"  }),
+      "tile.sortonly4":   () => buildPodUrl({ env:"qas", podVersion:1, podId:"ZD_GUIDED_SORT_ONLY",      workcenter:"SORTLN2",  resource:"SORT2_1"  }),
+      "tile.sortonly5":   () => buildPodUrl({ env:"qas", podVersion:1, podId:"ZD_GUIDED_SORT_ONLY",      workcenter:"SORTLN2",  resource:"SORT2_2"  }),
+      "tile.sortonly6":   () => buildPodUrl({ env:"qas", podVersion:1, podId:"ZD_GUIDED_SORT_ONLY",      workcenter:"SORTLN2",  resource:"SORT2_3"  }),
+      "tile.sortonly7":   () => buildPodUrl({ env:"qas", podVersion:1, podId:"ZD_GUIDED_SORT_ONLY",      workcenter:"SORTLN2",  resource:"SORT2_4"  }),
+      "tile.sortonly20":  () => buildPodUrl({ env:"qas", podVersion:1, podId:"ZD_GUIDED_SORT_ONLY",      workcenter:"SORTLN2",  resource:"SORT2_20" }),
+      "tile.repair8":     () => buildPodUrl({ env:"qas", podVersion:1, podId:"ZD_GUIDED_REPAIR_ONLY",    workcenter:"SORTLN3",  resource:"SORT3_1"  }),
+      "tile.repair9":     () => buildPodUrl({ env:"qas", podVersion:1, podId:"ZD_GUIDED_REPAIR_ONLY",    workcenter:"SORTLN3",  resource:"SORT3_2"  }),
+      "tile.repair10":    () => buildPodUrl({ env:"qas", podVersion:1, podId:"ZD_GUIDED_REPAIR_ONLY",    workcenter:"SORTLN3",  resource:"SORT3_3"  }),
+      "tile.repair11":    () => buildPodUrl({ env:"qas", podVersion:1, podId:"ZD_GUIDED_REPAIR_ONLY",    workcenter:"SORTLN3",  resource:"SORT3_4"  }),
+      "tile.repair12":    () => buildPodUrl({ env:"qas", podVersion:1, podId:"ZD_GUIDED_REPAIR_ONLY",    workcenter:"SORTLN3",  resource:"SORT3_5"  }),
+      "tile.repair13":    () => buildPodUrl({ env:"qas", podVersion:1, podId:"ZD_GUIDED_REPAIR_ONLY",    workcenter:"SORTLN3",  resource:"SORT3_6"  })
+    },
 
-	];
+    p040_live: {
+      "tile.grading1":    () => buildPodUrl({ env:"live", podVersion:1, podId:"ZD_GUIDED_GRADE",         workcenter:"GRADELN1", resource:"GRADE1"   }),
+      "tile.grading2":    () => buildPodUrl({ env:"live", podVersion:1, podId:"ZD_GUIDED_GRADE",         workcenter:"GRADELN1", resource:"GRADE2"   }),
+      "tile.prep1":       () => buildPodUrl({ env:"live", podVersion:1, podId:"ZD_GUIDED_PREP",          workcenter:"PREPLN1",  resource:"PREP1"    }),
+      "tile.prep2":       () => buildPodUrl({ env:"live", podVersion:1, podId:"ZD_GUIDED_PREP",          workcenter:"PREPLN1",  resource:"PREP2"    }),
+      "tile.splice1in":   () => buildPodUrl({ env:"live", podVersion:1, podId:"ZD_GUIDED_SPLICE_IN",     workcenter:"SPLICEL1", resource:"SPLICEL1" }),
+      "tile.splice1m2":   () => buildPodUrl({ env:"live", podVersion:1, podId:"ZD_GUIDED_SPLICE_OUT",    workcenter:"SPLICEL1", resource:"SPLICE2"  }),
+      "tile.splice1m3":   () => buildPodUrl({ env:"live", podVersion:1, podId:"ZD_GUIDED_SPLICE_OUT",    workcenter:"SPLICEL1", resource:"SPLICE3"  }),
+      "tile.splice1m4":   () => buildPodUrl({ env:"live", podVersion:1, podId:"ZD_GUIDED_SPLICE_OUT",    workcenter:"SPLICEL1", resource:"SPLICE4"  }),
+      "tile.splice2in":   () => buildPodUrl({ env:"live", podVersion:1, podId:"ZD_GUIDED_SPLICE_IN",     workcenter:"SPLICEL2", resource:"SPLICEL2" }),
+      "tile.splice2m5":   () => buildPodUrl({ env:"live", podVersion:1, podId:"ZD_GUIDED_SPLICE_OUT",    workcenter:"SPLICEL2", resource:"SPLICE5"  }),
+      "tile.splice2m6":   () => buildPodUrl({ env:"live", podVersion:1, podId:"ZD_GUIDED_SPLICE_OUT",    workcenter:"SPLICEL2", resource:"SPLICE6"  }),
+      "tile.splice2m7":   () => buildPodUrl({ env:"live", podVersion:1, podId:"ZD_GUIDED_SPLICE_OUT",    workcenter:"SPLICEL2", resource:"SPLICE7"  }),
+      "tile.splice2m8":   () => buildPodUrl({ env:"live", podVersion:1, podId:"ZD_GUIDED_SPLICE_OUT",    workcenter:"SPLICEL2", resource:"SPLICE8"  }),
+      "tile.trim1":       () => buildPodUrl({ env:"live", podVersion:1, podId:"ZD_GUIDED_TRIM",          workcenter:"TRIMLN1",  resource:"TRIMLN1"  }),
+      "tile.trim2":       () => buildPodUrl({ env:"live", podVersion:1, podId:"ZD_GUIDED_TRIM",          workcenter:"TRIMLN2",  resource:"TRIMLN2"  }),
+      "tile.trim3":       () => buildPodUrl({ env:"live", podVersion:1, podId:"ZD_GUIDED_TRIM",          workcenter:"TRIMLN3",  resource:"TRIMLN3"  }),
+      "tile.cut1":        () => buildPodUrl({ env:"live", podVersion:1, podId:"ZD_GUIDED_TRIM",          workcenter:"CUTLN1",   resource:"CUTLN1"   }),
+      "tile.split1":      () => buildPodUrl({ env:"live", podVersion:1, podId:"ZD_GUIDED_SPLITBYLENGTH", workcenter:"SPLITLN1", resource:"SPLITLN1" }),
+      "tile.sortrepair1": () => buildPodUrl({ env:"live", podVersion:1, podId:"ZD_GUIDED_SORT_REPAIR",   workcenter:"SORTLN1",  resource:"SORT1_1"  }),
+      "tile.sortrepair2": () => buildPodUrl({ env:"live", podVersion:1, podId:"ZD_GUIDED_SORT_REPAIR",   workcenter:"SORTLN1",  resource:"SORT1_2"  }),
+      "tile.sortrepair3": () => buildPodUrl({ env:"live", podVersion:1, podId:"ZD_GUIDED_SORT_REPAIR",   workcenter:"SORTLN1",  resource:"SORT1_3"  }),
+      "tile.sortrepair4": () => buildPodUrl({ env:"live", podVersion:1, podId:"ZD_GUIDED_SORT_REPAIR",   workcenter:"SORTLN1",  resource:"SORT1_4"  }),
+      "tile.sortonly4":   () => buildPodUrl({ env:"live", podVersion:1, podId:"ZD_GUIDED_SORT_ONLY",     workcenter:"SORTLN2",  resource:"SORT2_1"  }),
+      "tile.sortonly5":   () => buildPodUrl({ env:"live", podVersion:1, podId:"ZD_GUIDED_SORT_ONLY",     workcenter:"SORTLN2",  resource:"SORT2_2"  }),
+      "tile.sortonly6":   () => buildPodUrl({ env:"live", podVersion:1, podId:"ZD_GUIDED_SORT_ONLY",     workcenter:"SORTLN2",  resource:"SORT2_3"  }),
+      "tile.sortonly7":   () => buildPodUrl({ env:"live", podVersion:1, podId:"ZD_GUIDED_SORT_ONLY",     workcenter:"SORTLN2",  resource:"SORT2_4"  }),
+      "tile.sortonly20":  () => buildPodUrl({ env:"live", podVersion:1, podId:"ZD_GUIDED_SORT_ONLY",     workcenter:"SORTLN2",  resource:"SORT2_20" }),
+      "tile.repair8":     () => buildPodUrl({ env:"live", podVersion:1, podId:"ZD_GUIDED_REPAIR_ONLY",   workcenter:"SORTLN3",  resource:"SORT3_1"  }),
+      "tile.repair9":     () => buildPodUrl({ env:"live", podVersion:1, podId:"ZD_GUIDED_REPAIR_ONLY",   workcenter:"SORTLN3",  resource:"SORT3_2"  }),
+      "tile.repair10":    () => buildPodUrl({ env:"live", podVersion:1, podId:"ZD_GUIDED_REPAIR_ONLY",   workcenter:"SORTLN3",  resource:"SORT3_3"  }),
+      "tile.repair11":    () => buildPodUrl({ env:"live", podVersion:1, podId:"ZD_GUIDED_REPAIR_ONLY",   workcenter:"SORTLN3",  resource:"SORT3_4"  }),
+      "tile.repair12":    () => buildPodUrl({ env:"live", podVersion:1, podId:"ZD_GUIDED_REPAIR_ONLY",   workcenter:"SORTLN3",  resource:"SORT3_5"  }),
+      "tile.repair13":    () => buildPodUrl({ env:"live", podVersion:1, podId:"ZD_GUIDED_REPAIR_ONLY",   workcenter:"SORTLN3",  resource:"SORT3_6"  })
+    }
+  };
 
-    let currentLang = localStorage.getItem("lang") || "en";
-    let currentEnv = localStorage.getItem("env") || "p040_qas";
-    let savedGroup = localStorage.getItem("group") || null;
+  // ── Group definitions (only include tile keys that actually exist) ───────────
+  const groups = [
+    { key:"group.grading",     tiles:["tile.grading1","tile.grading2"] },
+    { key:"group.preparation", tiles:["tile.prep1","tile.prep2","tile.split1"] },
+    { key:"group.splice1",     tiles:["tile.splice1in","tile.splice1m2","tile.splice1m3","tile.splice1m4"] },
+    { key:"group.splice2",     tiles:["tile.splice2in","tile.splice2m5","tile.splice2m6","tile.splice2m7","tile.splice2m8"] },
+    { key:"group.trimming",    tiles:["tile.trim1","tile.trim2","tile.trim3","tile.cut1"] },
+    { key:"group.sortrepair",  tiles:["tile.sortrepair1","tile.sortrepair2","tile.sortrepair3","tile.sortrepair4","tile.sortln1","tile.sortln2","tile.sortln3","tile.sort4","tile.sort5","tile.sort6","tile.sortln7"] },
+    { key:"group.sortonly",    tiles:["tile.sortonly4","tile.sortonly5","tile.sortonly6","tile.sortonly7","tile.sortonly20"] },
+    { key:"group.repaironly",  tiles:["tile.repair8","tile.repair9","tile.repair10","tile.repair11","tile.repair12","tile.repair13"] },
+    { key:"group.press_saw",   tiles:["tile.saw1","tile.saw2","tile.saw3","tile.press2","tile.press3"] },
+    { key:"group.varnish",     tiles:["tile.varnish1","tile.varnish2","tile.varnish4","tile.varnish5"] },
+    { key:"group.finishing",   tiles:["tile.multi1","tile.multi3","tile.sand1","tile.pack1"] }
+  ];
 
-    function renderGroups() {
-      const container = document.getElementById("groupsContainer");
-      container.innerHTML = "";
-	  groups.filter(group => group.tiles.some(tile => links[currentEnv]?.[tile]))
-	  .forEach(group => {
-        const item = document.createElement("div");
+  // ── State ────────────────────────────────────────────────────────────────────
+  let currentEnv  = localStorage.getItem("env")   || "p010_qas";
+  let savedGroup  = localStorage.getItem("group") || null;
+
+  // ── Render accordion ─────────────────────────────────────────────────────────
+  function renderGroups() {
+    const container = document.getElementById("groupsContainer");
+    container.innerHTML = "";
+
+    groups
+      .filter(group => group.tiles.some(tile => links[currentEnv]?.[tile]))
+      .forEach(group => {
+        const item    = document.createElement("div");
         item.classList.add("accordion-item");
 
-        const header = document.createElement("div");
+        const header  = document.createElement("div");
         header.classList.add("accordion-header");
-        header.setAttribute("data-translate", group.key);
-        header.textContent = translations[currentLang][group.key];
+        header.textContent = translations[group.key];
 
         const content = document.createElement("div");
         content.classList.add("accordion-content");
 
         group.tiles.forEach(tileKey => {
-          if(!links[currentEnv][tileKey]) return;
+          if (!links[currentEnv]?.[tileKey]) return;
           const btn = document.createElement("button");
           btn.classList.add("tile");
-          btn.setAttribute("data-translate", tileKey);
-          btn.textContent = translations[currentLang][tileKey];
-		  btn.onclick = () => window.open(links[currentEnv][tileKey](), "_blank");
+          btn.textContent = translations[tileKey] ?? tileKey;
+          btn.onclick = () => window.open(links[currentEnv][tileKey](), "_blank");
           content.appendChild(btn);
         });
 
         header.addEventListener("click", () => {
+          const isOpen = content.classList.contains("open");
+          // close all panels
           document.querySelectorAll(".accordion-content").forEach(c => {
-            if(c !== content) {
-              c.style.maxHeight = null;
-              c.classList.remove("open");
-            }
+            c.style.maxHeight = null;
+            c.classList.remove("open");
           });
-          if(content.classList.contains("open")) {
-            content.style.maxHeight = null;
-            content.classList.remove("open");
-          } else {
+          // re-open if it was closed
+          if (!isOpen) {
             content.classList.add("open");
             content.style.maxHeight = content.scrollHeight + "px";
           }
@@ -544,57 +363,53 @@
         container.appendChild(item);
       });
 
-      if(savedGroup) {
-        const header = document.querySelector(`.accordion-header[data-translate="${savedGroup}"]`);
-        if(header) {
-          const content = header.nextElementSibling;
-          content.classList.add("open");
-          content.style.maxHeight = content.scrollHeight + "px";
-        }
-      }
+    // restore previously open group
+    if (savedGroup) {
+      const header = document.querySelector(`.accordion-header[data-group="${savedGroup}"]`);
+      // use data-group attribute set below
     }
 
-    function translatePage() {
-      document.querySelectorAll("[data-translate]").forEach(el=>{
-        const key = el.getAttribute("data-translate");
-        if(translations[currentLang][key]) el.textContent = translations[currentLang][key];
-      });
-    }
-
-    function loadEnv(env) {
-      currentEnv = env;
-      localStorage.setItem("env", env);
-	
-	  document.querySelectorAll(".sidebar a").forEach(a =>a.classList.remove("active"));
-	  document.querySelectorAll(".sidebar a").forEach(a =>a.classList.remove("active_red"));
-
-      const header = document.getElementById("envHeader");
-	  if (env.endsWith("_live")) {
-		header.className = "live";
-        const activeLink = document.querySelector(`.sidebar a[onclick="loadEnv('${env}')"]`);
-        if (activeLink) activeLink.classList.add("active_red");
-
-	  } else {
-		header.className = "qas";
-        const activeLink = document.querySelector(`.sidebar a[onclick="loadEnv('${env}')"]`);
-        if (activeLink) activeLink.classList.add("active");
-	  }
-	  header.setAttribute("data-translate", `${env}`);
-	  renderGroups();
-      translatePage();
-    }
-
-    document.getElementById("languageSelect").value = currentLang;
-    document.getElementById("languageSelect").addEventListener("change", e => {
-      currentLang = e.target.value;
-      localStorage.setItem("lang", currentLang);
-      renderGroups();
-      translatePage();
+    // set data-group on each header for restore logic
+    container.querySelectorAll(".accordion-header").forEach((h, i) => {
+      const visibleGroups = groups.filter(g => g.tiles.some(t => links[currentEnv]?.[t]));
+      h.dataset.group = visibleGroups[i]?.key;
     });
 
+    if (savedGroup) {
+      const header = container.querySelector(`.accordion-header[data-group="${savedGroup}"]`);
+      if (header) {
+        const content = header.nextElementSibling;
+        content.classList.add("open");
+        content.style.maxHeight = content.scrollHeight + "px";
+      }
+    }
+  }
+
+  // ── Load environment ─────────────────────────────────────────────────────────
+  function loadEnv(env) {
+    currentEnv = env;
+    localStorage.setItem("env", env);
+
+    // update header
+    const header = document.getElementById("envHeader");
+    header.textContent = translations[env];
+    header.className   = env.endsWith("_live") ? "live" : "qas";
+
+    // update sidebar active state
+    document.querySelectorAll(".sidebar a").forEach(a => {
+      a.classList.remove("active", "active_red");
+    });
+    const activeLink = document.querySelector(`.sidebar a[onclick="loadEnv('${env}')"]`);
+    if (activeLink) {
+      activeLink.classList.add(env.endsWith("_live") ? "active_red" : "active");
+    }
+
     renderGroups();
-    translatePage();
-    loadEnv(currentEnv);
-  </script>
+  }
+
+  // ── Init ─────────────────────────────────────────────────────────────────────
+  loadEnv(currentEnv);
+</script>
+
 </body>
 </html>
