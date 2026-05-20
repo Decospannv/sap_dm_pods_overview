@@ -191,29 +191,29 @@
     // podVersion must be a number (1 or 2) for the strict comparison below
     return podVersion === 1
       ? `${base}/cp.portal/site#DMEWorkCenterPOD-Display?POD_ID=${podId}&sap-app-origin-hint=&/?=&WORKCENTER=${workcenter}&RESOURCE=${resource}`
-      : `${base}/sapdmdmepod2/pod.html?POD_ID=${podId}&sap-app-origin-hint=&/?=&WORK_CENTER=${workcenter}&RESOURCE=${resource}`;
+      : `${base}/sapdmdmepod2/~5e8e0a4e-f218-40f8-9a9f-6450d9cc4a20~/pod.html?POD_ID=${podId}&WORK_CENTER=${workcenter}&RESOURCE=${resource}`;
   }
 
   // ── Links per tile per environment ──────────────────────────────────────────
   const links = {
     p010_qas: {
-      "tile.grading1": () => buildPodUrl({ env:"qas", podVersion:2, podId:"GRADE1",   workcenter:"GRADELN1", resource:"GRADE1"   }),
-      "tile.grading2": () => buildPodUrl({ env:"qas", podVersion:2, podId:"GRADE2",   workcenter:"GRADELN1", resource:"GRADE2"   }),
-      "tile.sortln1":  () => buildPodUrl({ env:"qas", podVersion:2, podId:"SORT1",    workcenter:"SORTLN1",  resource:"SORT1"    }),
-      "tile.sortln3":  () => buildPodUrl({ env:"qas", podVersion:2, podId:"SORT3",    workcenter:"SORTLN3",  resource:"SORT3"    }),
-      "tile.sort4":    () => buildPodUrl({ env:"qas", podVersion:2, podId:"SORT4",    workcenter:"SORTLN4",  resource:"SORT4"    }),
-      "tile.sort5":    () => buildPodUrl({ env:"qas", podVersion:2, podId:"SORT4",    workcenter:"SORTLN4",  resource:"SORT5"    }),
-      "tile.sort6":    () => buildPodUrl({ env:"qas", podVersion:2, podId:"SORT4",    workcenter:"SORTLN4",  resource:"SORT6"    }),
-      "tile.sortln7":  () => buildPodUrl({ env:"qas", podVersion:2, podId:"SORT7",    workcenter:"SORTLN7",  resource:"SORT7"    }),
-      "tile.multi1":   () => buildPodUrl({ env:"qas", podVersion:2, podId:"MULTI1",   workcenter:"MULTI1",   resource:"MULTI1"   }),
+      "tile.grading1": () => buildPodUrl({ env:"qas", podVersion:2, podId:"GRADE",    workcenter:"GRADELN1", resource:"GRADE1"   }),
+      "tile.grading2": () => buildPodUrl({ env:"qas", podVersion:2, podId:"GRADE",    workcenter:"GRADELN1", resource:"GRADE2"   }),
+      "tile.sortln1":  () => buildPodUrl({ env:"qas", podVersion:2, podId:"SORT",     workcenter:"SORTLN1",  resource:"SORT1"    }),
+      "tile.sortln3":  () => buildPodUrl({ env:"qas", podVersion:2, podId:"SORT",     workcenter:"SORTLN3",  resource:"SORT3"    }),
+      "tile.sort4":    () => buildPodUrl({ env:"qas", podVersion:2, podId:"SORT",     workcenter:"SORTLN4",  resource:"SORT4"    }),
+      "tile.sort5":    () => buildPodUrl({ env:"qas", podVersion:2, podId:"SORT",     workcenter:"SORTLN4",  resource:"SORT5"    }),
+      "tile.sort6":    () => buildPodUrl({ env:"qas", podVersion:2, podId:"SORT",     workcenter:"SORTLN4",  resource:"SORT6"    }),
+      "tile.sortln7":  () => buildPodUrl({ env:"qas", podVersion:2, podId:"SORT",     workcenter:"SORTLN7",  resource:"SORT7"    }),
+      "tile.multi1":   () => buildPodUrl({ env:"qas", podVersion:2, podId:"MULTI",    workcenter:"MULTI1",   resource:"MULTI1"   }),
       "tile.multi3":   () => buildPodUrl({ env:"qas", podVersion:2, podId:"MULTI",    workcenter:"MULTI3",   resource:"MULTI3"   }),
-      "tile.saw1":     () => buildPodUrl({ env:"qas", podVersion:2, podId:"SAW1",     workcenter:"SAW1",     resource:"SAW1"     }),
-      "tile.saw2":     () => buildPodUrl({ env:"qas", podVersion:2, podId:"SAW2",     workcenter:"SAW2",     resource:"SAW2"     }),
-      "tile.saw3":     () => buildPodUrl({ env:"qas", podVersion:2, podId:"SAW2",     workcenter:"SAW2",     resource:"SAW2"     }),
-      "tile.press2":   () => buildPodUrl({ env:"qas", podVersion:2, podId:"PRESS2",   workcenter:"PRESS2",   resource:"PRESS2"   }),
-      "tile.press3":   () => buildPodUrl({ env:"qas", podVersion:2, podId:"PRESS3",   workcenter:"PRESS3",   resource:"PRESS3"   }),
-      "tile.sand1":    () => buildPodUrl({ env:"qas", podVersion:2, podId:"SAND1",    workcenter:"SAND1",    resource:"SAND1"    }),
-      "tile.pack1":    () => buildPodUrl({ env:"qas", podVersion:2, podId:"PACK1",    workcenter:"PACK1",    resource:"PACK1"    }),
+      "tile.saw1":     () => buildPodUrl({ env:"qas", podVersion:2, podId:"SAW",      workcenter:"SAW1",     resource:"SAW1"     }),
+      "tile.saw2":     () => buildPodUrl({ env:"qas", podVersion:2, podId:"SAW",      workcenter:"SAW2",     resource:"SAW2"     }),
+      "tile.saw3":     () => buildPodUrl({ env:"qas", podVersion:2, podId:"SAW",      workcenter:"SAW2",     resource:"SAW2"     }),
+      "tile.press2":   () => buildPodUrl({ env:"qas", podVersion:2, podId:"PRESS",    workcenter:"PRESS2",   resource:"PRESS2"   }),
+      "tile.press3":   () => buildPodUrl({ env:"qas", podVersion:2, podId:"PRESS",    workcenter:"PRESS3",   resource:"PRESS3"   }),
+      "tile.sand1":    () => buildPodUrl({ env:"qas", podVersion:2, podId:"SAND",     workcenter:"SAND1",    resource:"SAND1"    }),
+      "tile.pack1":    () => buildPodUrl({ env:"qas", podVersion:2, podId:"PACK",     workcenter:"PACK1",    resource:"PACK1"    }),
       "tile.varnish1": () => buildPodUrl({ env:"qas", podVersion:2, podId:"VARNISH",  workcenter:"VARNISH1", resource:"VARNISH1" }),
       "tile.varnish2": () => buildPodUrl({ env:"qas", podVersion:2, podId:"VARNISH",  workcenter:"VARNISH2", resource:"VARNISH2" }),
       "tile.varnish4": () => buildPodUrl({ env:"qas", podVersion:2, podId:"VARNISH",  workcenter:"VARNISH4", resource:"VARNISH4" }),
