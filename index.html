@@ -127,8 +127,11 @@
     "group.varnish":     "Varnish",
     "group.finishing":   "Finishing",
 
+    "tile.gradingline1":"Gradingline 1",
     "tile.grading1":    "Grading table 1",
     "tile.grading2":    "Grading table 2",
+    "tile.grading3":    "Grading table 3",
+    "tile.grading4":    "Grading table 4",
     "tile.prep1":       "Preparation table 1",
     "tile.prep2":       "Preparation table 2",
     "tile.splice1in":   "Splicing line 1 input",
@@ -197,27 +200,28 @@
   // ── Links per tile per environment ──────────────────────────────────────────
   const links = {
     p010_qas: {
-      "tile.grading1": () => buildPodUrl({ env:"qas", podVersion:2, podId:"GRADE",    workcenter:"GRADELN1", resource:"GRADE1"   }),
-      "tile.grading2": () => buildPodUrl({ env:"qas", podVersion:2, podId:"GRADE",    workcenter:"GRADELN1", resource:"GRADE2"   }),
-      "tile.sortln1":  () => buildPodUrl({ env:"qas", podVersion:2, podId:"SORT",     workcenter:"SORTLN1",  resource:"SORT1"    }),
-      "tile.sortln3":  () => buildPodUrl({ env:"qas", podVersion:2, podId:"SORT",     workcenter:"SORTLN3",  resource:"SORT3"    }),
-      "tile.sort4":    () => buildPodUrl({ env:"qas", podVersion:2, podId:"SORT",     workcenter:"SORTLN4",  resource:"SORT4"    }),
-      "tile.sort5":    () => buildPodUrl({ env:"qas", podVersion:2, podId:"SORT",     workcenter:"SORTLN4",  resource:"SORT5"    }),
-      "tile.sort6":    () => buildPodUrl({ env:"qas", podVersion:2, podId:"SORT",     workcenter:"SORTLN4",  resource:"SORT6"    }),
-      "tile.sortln7":  () => buildPodUrl({ env:"qas", podVersion:2, podId:"SORT",     workcenter:"SORTLN7",  resource:"SORT7"    }),
-      "tile.multi1":   () => buildPodUrl({ env:"qas", podVersion:2, podId:"MULTI",    workcenter:"MULTI1",   resource:"MULTI1"   }),
-      "tile.multi3":   () => buildPodUrl({ env:"qas", podVersion:2, podId:"MULTI",    workcenter:"MULTI3",   resource:"MULTI3"   }),
-      "tile.saw1":     () => buildPodUrl({ env:"qas", podVersion:2, podId:"SAW",      workcenter:"SAW1",     resource:"SAW1"     }),
-      "tile.saw2":     () => buildPodUrl({ env:"qas", podVersion:2, podId:"SAW",      workcenter:"SAW2",     resource:"SAW2"     }),
-      "tile.saw3":     () => buildPodUrl({ env:"qas", podVersion:2, podId:"SAW",      workcenter:"SAW2",     resource:"SAW2"     }),
-      "tile.press2":   () => buildPodUrl({ env:"qas", podVersion:2, podId:"PRESS",    workcenter:"PRESS2",   resource:"PRESS2"   }),
-      "tile.press3":   () => buildPodUrl({ env:"qas", podVersion:2, podId:"PRESS",    workcenter:"PRESS3",   resource:"PRESS3"   }),
-      "tile.sand1":    () => buildPodUrl({ env:"qas", podVersion:2, podId:"SAND",     workcenter:"SAND1",    resource:"SAND1"    }),
-      "tile.pack1":    () => buildPodUrl({ env:"qas", podVersion:2, podId:"PACK",     workcenter:"PACK1",    resource:"PACK1"    }),
-      "tile.varnish1": () => buildPodUrl({ env:"qas", podVersion:2, podId:"VARNISH",  workcenter:"VARNISH1", resource:"VARNISH1" }),
-      "tile.varnish2": () => buildPodUrl({ env:"qas", podVersion:2, podId:"VARNISH",  workcenter:"VARNISH2", resource:"VARNISH2" }),
-      "tile.varnish4": () => buildPodUrl({ env:"qas", podVersion:2, podId:"VARNISH",  workcenter:"VARNISH4", resource:"VARNISH4" }),
-      "tile.varnish5": () => buildPodUrl({ env:"qas", podVersion:2, podId:"VARNISH5", workcenter:"VARNISH5", resource:"VARNISH5" })
+      "tile.gradingline1": () => buildPodUrl({ env:"qas", podVersion:1, podId:"ZD_GUIDED_GRADE", workcenter:"GRADELN1", resource:"GRADE1"   }),
+      "tile.grading2":     () => buildPodUrl({ env:"qas", podVersion:1, podId:"ZD_GUIDED_GRADE", workcenter:"GRADELN2", resource:"GRADE2"   }),
+      "tile.grading3":     () => buildPodUrl({ env:"qas", podVersion:1, podId:"ZD_GUIDED_GRADE", workcenter:"GRADELN2", resource:"GRADE3"   }),
+      "tile.sortln1":      () => buildPodUrl({ env:"qas", podVersion:2, podId:"SORT",            workcenter:"SORTLN1",  resource:"SORT1"    }),
+      "tile.sortln3":      () => buildPodUrl({ env:"qas", podVersion:2, podId:"SORT",            workcenter:"SORTLN3",  resource:"SORT3"    }),
+      "tile.sort4":        () => buildPodUrl({ env:"qas", podVersion:2, podId:"SORT",            workcenter:"SORTLN4",  resource:"SORT4"    }),
+      "tile.sort5":        () => buildPodUrl({ env:"qas", podVersion:2, podId:"SORT",            workcenter:"SORTLN4",  resource:"SORT5"    }),
+      "tile.sort6":        () => buildPodUrl({ env:"qas", podVersion:2, podId:"SORT",            workcenter:"SORTLN4",  resource:"SORT6"    }),
+      "tile.sortln7":      () => buildPodUrl({ env:"qas", podVersion:2, podId:"SORT",            workcenter:"SORTLN7",  resource:"SORT7"    }),
+      "tile.multi1":       () => buildPodUrl({ env:"qas", podVersion:2, podId:"MULTI",           workcenter:"MULTI1",   resource:"MULTI1"   }),
+      "tile.multi3":       () => buildPodUrl({ env:"qas", podVersion:2, podId:"MULTI",           workcenter:"MULTI3",   resource:"MULTI3"   }),
+      "tile.saw1":         () => buildPodUrl({ env:"qas", podVersion:2, podId:"SAW",             workcenter:"SAW1",     resource:"SAW1"     }),
+      "tile.saw2":         () => buildPodUrl({ env:"qas", podVersion:2, podId:"SAW",             workcenter:"SAW2",     resource:"SAW2"     }),
+      "tile.saw3":         () => buildPodUrl({ env:"qas", podVersion:2, podId:"SAW",             workcenter:"SAW2",     resource:"SAW2"     }),
+      "tile.press2":       () => buildPodUrl({ env:"qas", podVersion:2, podId:"PRESS",           workcenter:"PRESS2",   resource:"PRESS2"   }),
+      "tile.press3":       () => buildPodUrl({ env:"qas", podVersion:2, podId:"PRESS",           workcenter:"PRESS3",   resource:"PRESS3"   }),
+      "tile.sand1":        () => buildPodUrl({ env:"qas", podVersion:2, podId:"SAND",            workcenter:"SAND1",    resource:"SAND1"    }),
+      "tile.pack1":        () => buildPodUrl({ env:"qas", podVersion:2, podId:"PACK",            workcenter:"PACK1",    resource:"PACK1"    }),
+      "tile.varnish1":     () => buildPodUrl({ env:"qas", podVersion:2, podId:"VARNISH",         workcenter:"VARNISH1", resource:"VARNISH1" }),
+      "tile.varnish2":     () => buildPodUrl({ env:"qas", podVersion:2, podId:"VARNISH",         workcenter:"VARNISH2", resource:"VARNISH2" }),
+      "tile.varnish4":     () => buildPodUrl({ env:"qas", podVersion:2, podId:"VARNISH",         workcenter:"VARNISH4", resource:"VARNISH4" }),
+      "tile.varnish5":     () => buildPodUrl({ env:"qas", podVersion:2, podId:"VARNISH5",        workcenter:"VARNISH5", resource:"VARNISH5" })
     },
 
     p010_live: {
@@ -299,7 +303,7 @@
 
   // ── Group definitions (only include tile keys that actually exist) ───────────
   const groups = [
-    { key:"group.grading",     tiles:["tile.grading1","tile.grading2"] },
+    { key:"group.grading",     tiles:["tile.grading1","tile.grading2","tile.grading3","tile.grading4","tile.gradingline1"] },
     { key:"group.preparation", tiles:["tile.prep1","tile.prep2","tile.split1"] },
     { key:"group.splice1",     tiles:["tile.splice1in","tile.splice1m2","tile.splice1m3","tile.splice1m4"] },
     { key:"group.splice2",     tiles:["tile.splice2in","tile.splice2m5","tile.splice2m6","tile.splice2m7","tile.splice2m8"] },
