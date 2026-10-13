@@ -116,7 +116,7 @@
     "p040_live": "⚠⚠ Decofib (P040) LIVE ⚠⚠",
 
     "group.grading":     "Grading",
-    "group.preparation": "Preparation",
+    "group.preparation": "Preparation/Mezzanine",
     "group.splice":      "Splicing",
     "group.trimming":    "Trimming",
     "group.sortrepair":  "Sort and repair",
@@ -133,6 +133,9 @@
     "tile.grading4":     "Grading table 4",
     "tile.prep1":        "Preparation table 1",
     "tile.prep2":        "Preparation table 2",
+    "tile.pick1":        "Pick 1",
+    "tile.pick2":        "Pick 2",
+    "tile.pick3":        "Pick 3",
     "tile.cutln1":       "Cutline 1",
     "tile.cutln2":       "Cutline 2",
     "tile.cutln3":       "Cutline 3",
@@ -264,6 +267,9 @@
       "tile.foilfx1":      () => buildPodUrl({ env:"qas", podVersion:2, podId:"FOIL_MANUAL",       workcenter:"FOILFX1",  resource:"FOILFX1"  }),
       "tile.tasks_pr2":    () => buildPodUrl({ env:"qas", podVersion:2, podId:"SHOW_TASKS_PRESS",  workcenter:"PRESS2",   resource:"PRESS2"   }),
       "tile.tasks_pr3":    () => buildPodUrl({ env:"qas", podVersion:2, podId:"SHOW_TASKS_PRESS",  workcenter:"PRESS3",   resource:"PRESS3"   }),
+      "tile.pick1":        () => buildPodUrl({ env:"qas", podVersion:2, podId:"PICK_SHEETS",       workcenter:"PICK1",    resource:"PICK1"    }),
+      "tile.pick2":        () => buildPodUrl({ env:"qas", podVersion:2, podId:"PICK_SHEETS",       workcenter:"PICK2",    resource:"PICK2"    }),
+      "tile.pick3":        () => buildPodUrl({ env:"qas", podVersion:2, podId:"PICK_BOARDS",       workcenter:"PICK3",    resource:"PICK3"    })
     },
 
     p010_live: {
@@ -346,7 +352,7 @@
   // ── Group definitions (only include tile keys that actually exist) ───────────
   const groups = [
     { key:"group.grading",     tiles:["tile.grading1","tile.grading2","tile.grading3","tile.grading4","tile.gradingline1"] },
-    { key:"group.preparation", tiles:["tile.prep1","tile.prep2","tile.split1"] },
+    { key:"group.preparation", tiles:["tile.prep1","tile.prep2","tile.split1","tile.pick1","tile.pick2","tile.pick3"] },
     { key:"group.splice",      tiles:["tile.cutln1","tile.cutln2","tile.cutln3","tile.mixml1","tile.mixml2","tile.splice1in","tile.splice1","tile.splice2","tile.splice3","tile.splice4","tile.splice2in","tile.splice5","tile.splice6","tile.splice7","tile.splice8"] },
     { key:"group.trimming",    tiles:["tile.trim1","tile.trim2","tile.trim3","tile.cut1"] },
     { key:"group.sortrepair",  tiles:["tile.sortrepair1","tile.sortrepair2","tile.sortrepair3","tile.sortrepair4","tile.sortln1","tile.sortln2","tile.sortln3","tile.sort4","tile.sort5","tile.sort6","tile.sortln7"] },
